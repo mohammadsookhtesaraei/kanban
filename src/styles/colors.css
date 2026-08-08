@@ -1,0 +1,122 @@
+:root {
+  --color-white: hsl(0, 0%, 100%);
+  --color-black: hsl(0, 0%, 0%);
+
+  --color-gray-0: hsl(210 16.7% 97.6%);
+  --color-gray-1: hsl(210 16.7% 95.3%);
+  --color-gray-2: hsl(210 15.8% 92.5%);
+  --color-gray-3: hsl(210 13.8% 88.6%);
+  --color-gray-4: hsl(210 14% 83.1%);
+  --color-gray-5: hsl(210 10.8% 71%);
+  --color-gray-6: hsl(210 7.1% 55.7%);
+  --color-gray-7: hsl(210 8.8% 31.4%);
+  --color-gray-8: hsl(210 10.3% 22.7%);
+  --color-gray-9: hsl(210 10.8% 14.5%);
+
+  /* ==================== */
+  /* Blue */
+  /* ==================== */
+
+  --color-blue-0: hsl(205 100% 95.3%);
+  --color-blue-1: hsl(206 100% 90.8%);
+  --color-blue-2: hsl(206 100% 82.4%);
+  --color-blue-3: hsl(206 95.8% 72.2%);
+  --color-blue-4: hsl(207 91.4% 63.5%);
+  --color-blue-5: hsl(207 86.3% 57.1%);
+  --color-blue-6: hsl(208 79.7% 51.8%);
+  --color-blue-7: hsl(208 76.9% 47.5%);
+  --color-blue-8: hsl(209 77.2% 42.9%);
+  --color-blue-9: hsl(209 75.8% 32.4%);
+
+  /* ==================== */
+  /* Green */
+  /* ==================== */
+
+  --color-green-0: hsl(131 66.7% 95.3%);
+  --color-green-1: hsl(128 76% 90.2%);
+  --color-green-2: hsl(128 71.1% 82.4%);
+  --color-green-3: hsl(129 67.9% 73.1%);
+  --color-green-4: hsl(130 61.3% 63.5%);
+  --color-green-5: hsl(130 56.8% 56.5%);
+  --color-green-6: hsl(131 50.4% 50.2%);
+  --color-green-7: hsl(131 52.8% 45.7%);
+  --color-green-8: hsl(131 54.1% 40.2%);
+  --color-green-9: hsl(132 52.5% 35.5%);
+
+  /* ==================== */
+  /* Yellow */
+  /* ==================== */
+
+  --color-yellow-0: hsl(50 100% 92.9%);
+  --color-yellow-1: hsl(49 100% 87.5%);
+  --color-yellow-2: hsl(49 100% 80%);
+  --color-yellow-3: hsl(48 100% 70%);
+  --color-yellow-4: hsl(47 100% 61.6%);
+  --color-yellow-5: hsl(45 97.4% 54.3%);
+  --color-yellow-6: hsl(42 96.1% 50%);
+  --color-yellow-7: hsl(39 100% 48%);
+  --color-yellow-8: hsl(35 100% 47.1%);
+  --color-yellow-9: hsl(31 100% 45.1%);
+
+  /* ==================== */
+  /* Orange */
+  /* ==================== */
+
+  --color-orange-0: hsl(34 100% 95.1%);
+  --color-orange-1: hsl(33 100% 90%);
+  --color-orange-2: hsl(33 100% 82.9%);
+  --color-orange-3: hsl(32 100% 73.5%);
+  --color-orange-4: hsl(31 100% 65.1%);
+  --color-orange-5: hsl(29 100% 58.4%);
+  --color-orange-6: hsl(27 98.3% 53.5%);
+  --color-orange-7: hsl(24 94.5% 49.8%);
+  --color-orange-8: hsl(21 90.2% 47.8%);
+  --color-orange-9: hsl(17 87.1% 45.5%);
+
+  /* ==================== */
+  /* Red */
+
+  --color-red-0: hsl(0 100% 98%);
+  --color-red-1: hsl(0 100% 94.5%);
+  --color-red-2: hsl(0 100% 89.4%);
+  --color-red-3: hsl(0 100% 82.9%);
+  --color-red-4: hsl(0 100% 76.5%);
+  --color-red-5: hsl(0 100% 71%);
+  --color-red-6: hsl(0 94.4% 65.1%);
+  --color-red-7: hsl(0 85.6% 59.2%);
+  --color-red-8: hsl(0 73.8% 53.5%);
+  --color-red-9: hsl(0 65.4% 47.6%);
+
+  /* color-surface */
+
+  --color-surface-1: var(--color-gray-1);
+  --color-surface-2: var(--color-gray-0);
+  --color-surface-3: var(--color-white);
+
+  --color-text: var(--color-gray-9);
+
+  --color-primary-light: var(--color-blue-6);
+  --color-primary: var(--color-blue-8);
+  --color-primary-dark: var(--color-blue-9);
+  --color-primary-contrast: var(--color-white);
+}
+
+.gray {
+  --color-main: var(--color-gray-6);
+}
+
+.blue {
+  --color-main: var(--color-blue-6);
+}
+
+.green {
+  --color-main: var(--color-green-6);
+}
+
+.orange {
+  --color-main: var(--color-orange-6);
+}
+
+.red {
+  --color-main: var(--color-red-6);
+}

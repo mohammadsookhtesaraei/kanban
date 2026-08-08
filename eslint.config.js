@@ -16,17 +16,17 @@ export default defineConfig([
       tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
-       prettierConfig,
+      prettierConfig,
     ],
     languageOptions: {
       globals: globals.browser,
     },
-      plugins: {
+    plugins: {
       prettier: prettierPlugin,
     },
-    rules:{
+    rules: {
       '@typescript-eslint/explicit-function-return-type': 'error',
       '@typescript-eslint/explicit-member-accessibility': 'error',
-    }
+    },
   },
 ]);
