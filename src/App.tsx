@@ -1,4 +1,5 @@
 import BoardCard from '@/components/BoardCard/BoardCard';
+import Button from '@/components/Button/Button';
 
 import styles from './App.module.css';
 
@@ -10,7 +11,9 @@ const App: React.FC = () => {
       <main className={styles.main}>
         <div className={styles.header}>
           <h1>Boards</h1>
-          <button className={styles.btn}>create</button>
+          <Button variant="solid" color="default">
+            create
+          </Button>
         </div>
 
         <ul className={styles.boards}>
