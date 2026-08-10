@@ -2,13 +2,14 @@ import type { ReactNode } from 'react';
 
 import BoardCard from '@/components/BoardCard/BoardCard';
 import Button from '@/components/Button/Button';
+import Header from '@/components/Header/Header';
 
 import styles from './HomePage.module.css';
 
 const HomePage = (): ReactNode => {
   return (
     <div className={styles.home}>
-      <header className={styles.header}>header</header>
+      <Header />
 
       <main className={styles.main}>
         <div className={styles.header}>
