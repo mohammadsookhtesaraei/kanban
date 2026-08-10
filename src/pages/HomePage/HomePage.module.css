@@ -1,14 +1,5 @@
-.home {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-block-size: 100dvh;
-}
-
-.main {
-}
-
-/* main-header */
-.main > .header {
+/* -header */
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -16,8 +7,8 @@
   margin-block: 0.5rem;
 }
 
-/* main-boards -ul styles */
-.main .boards {
+/* -ul styles */
+.boards {
   list-style: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
