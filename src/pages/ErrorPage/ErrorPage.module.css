@@ -1,0 +1,12 @@
+.error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  block-size: 100%;
+}
+
+.error-page h1 {
+  font-size: var(--fz-600);
+  font-weight: 100;
+}
