@@ -9,7 +9,7 @@ const App = (): ReactNode => {
   return (
     <Routes>
       <Route index element={<HomePage />} />
-      <Route path="/board" element={<BoardPage />} />
+      <Route path="board" element={<BoardPage />} />
     </Routes>
   );
 };
