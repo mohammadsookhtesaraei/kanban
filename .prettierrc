@@ -10,7 +10,7 @@
     "^(vite|@vitejs)(/(.*))?$",
     "^(react|react-dom)(/(.*))?$",
     "^react-router(/(.*))?$",
-     "^react-error-boundray(/(.*))?$",
+    "^react-error-boundray(/(.*))?$",
     "^@tanstack(/(.*))?$",
     "^@react-toastify(/(.*))?$",
     "^@clsx(/(.*))?$",
