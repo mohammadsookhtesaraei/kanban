@@ -89,8 +89,8 @@
 
   /* color-surface */
 
-  --color-surface-1: var(--color-gray-1);
-  --color-surface-2: var(--color-gray-0);
+  --color-surface-1: var(--color-gray-3);
+  --color-surface-2: var(--color-gray-1);
   --color-surface-3: var(--color-white);
 
   --color-text: var(--color-gray-9);

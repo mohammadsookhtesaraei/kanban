@@ -10,7 +10,7 @@ const HomePage = (): ReactNode => {
     <div className={styles.home}>
       <div className={styles.header}>
         <h1>Boards</h1>
-        <Button variant="solid" color="default">
+        <Button variant="solid" color="primary">
           create
         </Button>
       </div>

@@ -38,3 +38,7 @@ a {
     color: var(--color-primary-dark);
   }
 }
+
+ul {
+  list-style: none;
+}
