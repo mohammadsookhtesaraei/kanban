@@ -4,6 +4,7 @@
   grid-template-rows: auto 1fr;
   gap: 1rem;
   block-size: 100%;
+  min-block-size: 0;
 }
 
 /* toolbar */

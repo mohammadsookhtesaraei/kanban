@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 
-// import styles from "./BoardPage.module.css"
-
 import Board from '@/components/Board/Board';
+
+import styles from './BoardPage.module.css';
 
 const BoardPage = (): ReactNode => {
   return (
-    <div>
+    <div className={styles.container}>
       <Board />
     </div>
   );
