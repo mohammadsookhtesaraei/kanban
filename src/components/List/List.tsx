@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { memo } from 'react';
 
 import IconButton from '@/components/IconButton/IconButton';
 import ListItem from '@/components/ListItem/ListItem';
@@ -32,4 +33,4 @@ const List = ({ list: { id, title, items } }: Props): ReactNode => {
     </div>
   );
 };
-export default List;
+export default memo(List);
