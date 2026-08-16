@@ -1,5 +1,8 @@
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, useCallback, useState } from 'react';
 
+import { listData } from '@/constant/mockData';
+
+import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import List from '@/components/List/List';
 
@@ -11,42 +14,31 @@ import type { ListType } from '@/types/list';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  const [todoList, setTodoList] = useState<ListType>({
-    id: '1',
-    title: '🔜 To Do',
-    items: [
-      { id: '1', title: 'set up backend' },
-      { id: '2', title: 'create modal' },
-      { id: '3', title: 'add tailwind' },
-    ],
-  });
+  const [lists, setLists] = useState<ListType[]>(listData);
 
-  const [doingList] = useState<ListType>({
-    id: '2',
-    title: '🔨 Doing',
-    items: [{ id: '1', title: 'set up backend' }],
-  });
+  // const [activeId,setActiveId]=useState<string | null>()
 
-  const [doneList] = useState<ListType>({
-    id: '3',
-    title: '🎉 Done',
-    items: [],
-  });
-
-  const handleButtonClick = (): void => {
-    setTodoList((prev) => {
-      const clone = [...prev.items];
-      clone.splice(1, 1);
-      return { ...prev, items: clone };
-    });
-  };
+  const handleListItemClick = useCallback((id: string) => {
+    setLists((prev) =>
+      prev.map((list) => ({
+        ...list,
+        items: list.items.filter((item) => item.id !== id),
+      }))
+    );
+  }, []);
 
   return (
     <div className={styles.board}>
       <div className={styles.toolbar}>
         <div className={styles.title}>Board title</div>
         <div className={styles.actions}>
-          <IconButton onClick={handleButtonClick}>
+          <div className={styles.spacer}>
+            <Button>todo</Button>
+            <Button>doing</Button>
+            <Button>done</Button>
+          </div>
+
+          <IconButton>
             <MingcuteEdit2Line />
           </IconButton>
           <IconButton>
@@ -57,15 +49,15 @@ const Board = (): ReactNode => {
 
       <ul className={styles.lists}>
         <li>
-          <List list={todoList} />
+          <List list={lists[0]} onClick={handleListItemClick} />
         </li>
 
         <li>
-          <List list={doingList} />
+          <List list={lists[1]} />
         </li>
 
         <li>
-          <List list={doneList} />
+          <List list={lists[2]} />
         </li>
       </ul>
     </div>
