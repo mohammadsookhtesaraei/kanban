@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { memo } from 'react';
+import { memo, useMemo } from 'react';
 
 import IconButton from '@/components/IconButton/IconButton';
 import ListItem from '@/components/ListItem/ListItem';
@@ -16,13 +16,12 @@ type Props = {
 };
 
 const List = ({ list: { id, title, items }, onClick }: Props): ReactNode => {
+  const moreIcon = useMemo(() => <MingcuteMore1Line />, []);
   return (
     <div key={id} className={styles.list}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-        <IconButton>
-          <MingcuteMore1Line />
-        </IconButton>
+        <IconButton>{moreIcon}</IconButton>
       </div>
       <ul className={styles.items}>
         {/* we should pass listId as props to ListItem for setState activeListid  */}

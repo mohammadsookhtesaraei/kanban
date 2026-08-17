@@ -1,4 +1,4 @@
-import { type ReactNode, useCallback, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
 import { listData } from '@/constant/mockData';
 
@@ -18,9 +18,6 @@ const Board = (): ReactNode => {
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
-
-  console.log(`activeList:${activeListId}`);
-  console.log(`activeitem:${activeItemId}`);
 
   const handleListItemClick = useCallback((listId: string, itemId: string) => {
     setActiveListId(listId);
@@ -91,7 +88,7 @@ const Board = (): ReactNode => {
     });
   };
 
-  const handleRemoveButtonClick = (): void => {
+  const handleRemoveButtonClick = useCallback(() => {
     setLists((prev) => {
       try {
         // find active list index
@@ -136,7 +133,9 @@ const Board = (): ReactNode => {
         setActiveListId(null);
       }
     });
-  };
+  }, [activeListId, activeItemId]);
+  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
+  const AddIcon = useMemo(() => <MingcuteAddLine />, []);
 
   return (
     <div className={styles.board}>
@@ -159,12 +158,8 @@ const Board = (): ReactNode => {
             </div>
           )}
 
-          <IconButton>
-            <MingcuteEdit2Line />
-          </IconButton>
-          <IconButton>
-            <MingcuteAddLine />
-          </IconButton>
+          <IconButton>{editIcon}</IconButton>
+          <IconButton>{AddIcon}</IconButton>
         </div>
       </div>
 
