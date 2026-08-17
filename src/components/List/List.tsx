@@ -12,7 +12,7 @@ import styles from './List.module.css';
 
 type Props = {
   list: ListType;
-  onClick?: (id: string) => void;
+  onClick?: (listId: string, itemId: string) => void;
 };
 
 const List = ({ list: { id, title, items }, onClick }: Props): ReactNode => {
@@ -25,9 +25,10 @@ const List = ({ list: { id, title, items }, onClick }: Props): ReactNode => {
         </IconButton>
       </div>
       <ul className={styles.items}>
+        {/* we should pass listId as props to ListItem for setState activeListid  */}
         {items.map((item) => (
           <li key={item.id}>
-            <ListItem item={item} onClick={onClick} />
+            <ListItem listId={id} item={item} onClick={onClick} />
           </li>
         ))}
       </ul>

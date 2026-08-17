@@ -6,13 +6,14 @@ import type { ListItemType } from '@/types/list-item';
 import styles from './ListItem.module.css';
 
 type Props = {
+  listId: string;
   item: ListItemType;
-  onClick?: (id: string) => void;
+  onClick?: (listId: string, itemId: string) => void;
 };
 
-const ListItem = ({ item, onClick }: Props): ReactNode => {
+const ListItem = ({ item, onClick, listId }: Props): ReactNode => {
   return (
-    <div className={styles.item} onClick={() => onClick?.(item.id)}>
+    <div className={styles.item} onClick={() => onClick?.(listId, item.id)}>
       {item.title}
     </div>
   );
