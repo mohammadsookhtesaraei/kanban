@@ -22,6 +22,7 @@ import type { ListType } from '@/types/list';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
+  console.log('render');
   const [lists, setLists] = useLocalStorage<ListType[]>('lists', listData);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
@@ -33,14 +34,23 @@ const Board = (): ReactNode => {
   }, []);
 
   useEffect(() => {
-    document.addEventListener('keydown', (e) => {
+    // callback function for escape key
+    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
       if (e.code !== 'Escape') {
         return;
       }
 
       setActiveListId(null);
       setActiveItemId(null);
-    });
+    };
+
+    // add event listner
+    document.addEventListener('keydown', handleDocumentKeyDown);
+
+    // / Cleanup function
+    return (): void => {
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+    };
   }, []);
 
   const handleCreateButtonClick = (): void => {
