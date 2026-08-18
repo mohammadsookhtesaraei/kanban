@@ -6,6 +6,8 @@ import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import List from '@/components/List/List';
 
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 
@@ -14,7 +16,7 @@ import type { ListType } from '@/types/list';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  const [lists, setLists] = useState<ListType[]>(listData);
+  const [lists, setLists] = useLocalStorage<ListType[]>('lists', listData);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
