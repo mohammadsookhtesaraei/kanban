@@ -24,6 +24,17 @@ const Board = (): ReactNode => {
     setActiveItemId(itemId);
   }, []);
 
+  const handleCreateButtonClick = (): void => {
+    setLists((prev) => {
+      const clone = [...prev];
+
+      const id = globalThis.crypto.randomUUID();
+
+      clone[0] = { ...clone[0], items: [...clone[0].items, { id, title: id }] };
+      return clone;
+    });
+  };
+
   const handleMoveButtonClick = (destinationListId: string): void => {
     console.log(destinationListId);
     setLists((prev) => {
@@ -159,7 +170,7 @@ const Board = (): ReactNode => {
           )}
 
           <IconButton>{editIcon}</IconButton>
-          <IconButton>{AddIcon}</IconButton>
+          <IconButton onClick={handleCreateButtonClick}>{AddIcon}</IconButton>
         </div>
       </div>
 
