@@ -1,4 +1,10 @@
-import { type ReactNode, useCallback, useMemo, useState } from 'react';
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 
 import { listData } from '@/constant/mockData';
 
@@ -24,6 +30,17 @@ const Board = (): ReactNode => {
   const handleListItemClick = useCallback((listId: string, itemId: string) => {
     setActiveListId(listId);
     setActiveItemId(itemId);
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      if (e.code !== 'Escape') {
+        return;
+      }
+
+      setActiveListId(null);
+      setActiveItemId(null);
+    });
   }, []);
 
   const handleCreateButtonClick = (): void => {
