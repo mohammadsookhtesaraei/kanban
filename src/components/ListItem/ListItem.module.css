@@ -3,9 +3,15 @@
   box-shadow: var(--shadow-2);
   padding: 0.5rem;
   border-radius: var(--border-radius-2);
-}
-
-.item {
   display: grid;
   grid-template-columns: 1fr auto;
+  align-items: start;
+}
+
+.item button {
+  opacity: 0;
+}
+
+.item button:hover {
+  opacity: 1;
 }

@@ -121,12 +121,12 @@ const Board = (): ReactNode => {
     });
   };
 
-  const handleRemoveButtonClick = (): void => {
+  const handleListItemRemove = (listId: string, itemId: string): void => {
     setLists((prev) => {
       try {
         // find active list index
         const activeListIndex = prev.findIndex(
-          (list) => list.id === activeListId /* state */
+          (list) => list.id === listId /* state */
         );
 
         // validation
@@ -146,7 +146,7 @@ const Board = (): ReactNode => {
 
         // find active item in activeList {id:"",title:"" ,items:[]}
         const activeItemIdIndex = activeList.items.findIndex(
-          (list) => list.id === activeItemId /* state */
+          (list) => list.id === itemId /* state */
         );
 
         // validation
@@ -185,7 +185,6 @@ const Board = (): ReactNode => {
                     {list.title}
                   </Button>
                 ))}
-              <Button onClick={() => handleRemoveButtonClick()}>Remove</Button>
             </div>
           )}
 
@@ -202,7 +201,11 @@ const Board = (): ReactNode => {
       <ul className={styles.lists}>
         {lists.map((list) => (
           <li key={list.id}>
-            <List list={list} onClick={handleListItemClick} />
+            <List
+              list={list}
+              onClick={handleListItemClick}
+              onRemove={handleListItemRemove}
+            />
           </li>
         ))}
       </ul>

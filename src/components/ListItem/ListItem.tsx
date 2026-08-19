@@ -15,11 +15,18 @@ type Props = {
   onRemove?: (listId: string, itemId: string) => void;
 };
 
-const ListItem = ({ item, onClick, listId }: Props): ReactNode => {
+const ListItem = ({ item, onClick, listId, onRemove }: Props): ReactNode => {
+  const handleRemoveItemButtonClick = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void => {
+    e.stopPropagation();
+    onRemove?.(listId, item.id);
+  };
+
   return (
     <div className={styles.item} onClick={() => onClick?.(listId, item.id)}>
       {item.title}
-      <IconButton>
+      <IconButton onClick={handleRemoveItemButtonClick}>
         <MingcuteDelete2Line />
       </IconButton>
     </div>
