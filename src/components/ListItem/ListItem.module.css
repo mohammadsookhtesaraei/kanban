@@ -6,6 +6,7 @@
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: start;
+  border: 1px solid transparent;
 }
 
 .item button {
@@ -14,4 +15,8 @@
 
 .item button:hover {
   opacity: 1;
+}
+
+.active {
+  border-color: var(--color-primary);
 }

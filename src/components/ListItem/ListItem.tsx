@@ -1,7 +1,10 @@
 import type { ReactNode } from 'react';
 
+import clsx from 'clsx';
+
 import IconButton from '@/components/IconButton/IconButton';
 
+import { useActiveItemContext } from '@/hooks/useActiveItemContext';
 import { useBoardContext } from '@/hooks/useBoardContext';
 
 import MingcuteDelete2Line from '@/icons/MingcuteDelete2Line';
@@ -13,20 +16,33 @@ import styles from './ListItem.module.css';
 type Props = {
   listId: string;
   item: ListItemType;
-  onClick?: (listId: string, itemId: string) => void;
 };
 
-const ListItem = ({ item, listId, onClick }: Props): ReactNode => {
+const ListItem = ({ item, listId }: Props): ReactNode => {
   const { remove } = useBoardContext();
+  const { activeItemId, activate, deactivate } = useActiveItemContext();
+
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.stopPropagation();
     remove(listId, item.id);
+    deactivate();
+  };
+
+  const handleListItemClick = (): void => {
+    if (item.id === activeItemId) {
+      deactivate();
+    } else {
+      activate(listId, item.id);
+    }
   };
 
   return (
-    <div className={styles.item} onClick={() => onClick?.(listId, item.id)}>
+    <div
+      className={clsx(styles.item, item.id === activeItemId && styles.active)}
+      onClick={handleListItemClick}
+    >
       {item.title}
       <IconButton onClick={handleRemoveItemButtonClick}>
         <MingcuteDelete2Line />

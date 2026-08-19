@@ -1,4 +1,9 @@
-import { type ReactNode, useEffect, useReducer } from 'react';
+import {
+  type PropsWithChildren,
+  type ReactNode,
+  useEffect,
+  useReducer,
+} from 'react';
 
 import { listData } from '@/constant/mockData';
 
@@ -21,9 +26,7 @@ function load(): ListType[] {
   return JSON.parse(item);
 }
 
-type Props = {
-  children: ReactNode;
-};
+type Props = PropsWithChildren;
 
 const BoardProvider = ({ children }: Props): ReactNode => {
   const [lists, dispatch] = useReducer(listsReducer, load());

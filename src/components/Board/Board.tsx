@@ -1,9 +1,10 @@
-import { type ReactNode, useEffect, useState } from 'react';
+import { type ReactNode } from 'react';
 
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import List from '@/components/List/List';
 
+import { useActiveItemContext } from '@/hooks/useActiveItemContext';
 import { useBoardContext } from '@/hooks/useBoardContext';
 
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
@@ -13,14 +14,7 @@ import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
   const { lists, create, move } = useBoardContext();
-
-  const [activeListId, setActiveListId] = useState<string | null>(null);
-  const [activeItemId, setActiveItemId] = useState<string | null>(null);
-
-  const handleListItemClick = (listId: string, itemId: string): void => {
-    setActiveListId(listId);
-    setActiveItemId(itemId);
-  };
+  const { activeListId, activeItemId, deactivate } = useActiveItemContext();
 
   const handleCreateButtonClick = (): void => {
     create();
@@ -30,29 +24,8 @@ const Board = (): ReactNode => {
     if (activeListId && activeItemId) {
       move(destinationListId, activeListId, activeItemId);
     }
-    setActiveListId(null);
-    setActiveItemId(null);
+    deactivate();
   };
-
-  useEffect(() => {
-    // callback function for escape key
-    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
-      if (e.code !== 'Escape') {
-        return;
-      }
-
-      setActiveListId(null);
-      setActiveItemId(null);
-    };
-
-    // add event listner
-    document.addEventListener('keydown', handleDocumentKeyDown);
-
-    // / Cleanup function
-    return (): void => {
-      document.removeEventListener('keydown', handleDocumentKeyDown);
-    };
-  }, []);
 
   return (
     <div className={styles.board}>
@@ -87,7 +60,7 @@ const Board = (): ReactNode => {
       <ul className={styles.lists}>
         {lists.map((list) => (
           <li key={list.id}>
-            <List list={list} onClick={handleListItemClick} />
+            <List list={list} />
           </li>
         ))}
       </ul>
