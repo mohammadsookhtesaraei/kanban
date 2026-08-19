@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 import IconButton from '@/components/IconButton/IconButton';
 
@@ -28,6 +29,7 @@ const ListItem = ({ item, listId }: Props): ReactNode => {
     e.stopPropagation();
     remove(listId, item.id);
     deactivate();
+    toast.success('Item removed successfully');
   };
 
   const handleListItemClick = (): void => {

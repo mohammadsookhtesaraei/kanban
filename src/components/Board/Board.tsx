@@ -1,5 +1,7 @@
 import { type ReactNode } from 'react';
 
+import { toast } from 'react-toastify';
+
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
 import List from '@/components/List/List';
@@ -18,11 +20,13 @@ const Board = (): ReactNode => {
 
   const handleCreateButtonClick = (): void => {
     create();
+    toast.success('Item created successfully');
   };
 
   const handleMoveCreateButtonClick = (destinationListId: string): void => {
     if (activeListId && activeItemId) {
       move(destinationListId, activeListId, activeItemId);
+      toast.success('Item moved successfully');
     }
     deactivate();
   };
