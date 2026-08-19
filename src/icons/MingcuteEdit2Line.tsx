@@ -1,4 +1,4 @@
-import { type SVGProps, memo } from 'react';
+import { type SVGProps } from 'react';
 
 function MingcuteEdit2Line(props: SVGProps<SVGSVGElement>): React.JSX.Element {
   return (
@@ -21,4 +21,4 @@ function MingcuteEdit2Line(props: SVGProps<SVGSVGElement>): React.JSX.Element {
     </svg>
   );
 }
-export default memo(MingcuteEdit2Line);
+export default MingcuteEdit2Line;

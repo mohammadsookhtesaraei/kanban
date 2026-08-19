@@ -1,10 +1,4 @@
-import {
-  type ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import { listData } from '@/constant/mockData';
 
@@ -22,16 +16,15 @@ import type { ListType } from '@/types/list';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  console.log('render');
   const [lists, setLists] = useLocalStorage<ListType[]>('lists', listData);
 
   const [activeListId, setActiveListId] = useState<string | null>(null);
   const [activeItemId, setActiveItemId] = useState<string | null>(null);
 
-  const handleListItemClick = useCallback((listId: string, itemId: string) => {
+  const handleListItemClick = (listId: string, itemId: string): void => {
     setActiveListId(listId);
     setActiveItemId(itemId);
-  }, []);
+  };
 
   useEffect(() => {
     // callback function for escape key
@@ -128,7 +121,7 @@ const Board = (): ReactNode => {
     });
   };
 
-  const handleRemoveButtonClick = useCallback(() => {
+  const handleRemoveButtonClick = (): void => {
     setLists((prev) => {
       try {
         // find active list index
@@ -173,9 +166,7 @@ const Board = (): ReactNode => {
         setActiveListId(null);
       }
     });
-  }, [activeListId, activeItemId]);
-  const editIcon = useMemo(() => <MingcuteEdit2Line />, []);
-  const AddIcon = useMemo(() => <MingcuteAddLine />, []);
+  };
 
   return (
     <div className={styles.board}>
@@ -198,8 +189,13 @@ const Board = (): ReactNode => {
             </div>
           )}
 
-          <IconButton>{editIcon}</IconButton>
-          <IconButton onClick={handleCreateButtonClick}>{AddIcon}</IconButton>
+          <IconButton>
+            <MingcuteEdit2Line />
+          </IconButton>
+          <IconButton onClick={handleCreateButtonClick}>
+            {' '}
+            <MingcuteAddLine />
+          </IconButton>
         </div>
       </div>
 

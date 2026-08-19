@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-import { memo } from 'react';
 
 import type { ListItemType } from '@/types/list-item';
 
@@ -18,4 +17,4 @@ const ListItem = ({ item, onClick, listId }: Props): ReactNode => {
     </div>
   );
 };
-export default memo(ListItem);
+export default ListItem;
