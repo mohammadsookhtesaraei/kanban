@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 
 import Button from '@/components/Button/Button';
 import IconButton from '@/components/IconButton/IconButton';
@@ -12,7 +12,47 @@ import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  const { activeListId, lists, move, create } = useBoardContext();
+  const { lists, create, move } = useBoardContext();
+
+  const [activeListId, setActiveListId] = useState<string | null>(null);
+  const [activeItemId, setActiveItemId] = useState<string | null>(null);
+
+  const handleListItemClick = (listId: string, itemId: string): void => {
+    setActiveListId(listId);
+    setActiveItemId(itemId);
+  };
+
+  const handleCreateButtonClick = (): void => {
+    create();
+  };
+
+  const handleMoveCreateButtonClick = (destinationListId: string): void => {
+    if (activeListId && activeItemId) {
+      move(destinationListId, activeListId, activeItemId);
+    }
+    setActiveListId(null);
+    setActiveItemId(null);
+  };
+
+  useEffect(() => {
+    // callback function for escape key
+    const handleDocumentKeyDown = (e: KeyboardEvent): void => {
+      if (e.code !== 'Escape') {
+        return;
+      }
+
+      setActiveListId(null);
+      setActiveItemId(null);
+    };
+
+    // add event listner
+    document.addEventListener('keydown', handleDocumentKeyDown);
+
+    // / Cleanup function
+    return (): void => {
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+    };
+  }, []);
 
   return (
     <div className={styles.board}>
@@ -24,7 +64,10 @@ const Board = (): ReactNode => {
               {lists
                 .filter((list) => list.id !== activeListId)
                 .map((list) => (
-                  <Button key={list.id} onClick={() => move(list.id)}>
+                  <Button
+                    key={list.id}
+                    onClick={() => handleMoveCreateButtonClick(list.id)}
+                  >
                     {list.title}
                   </Button>
                 ))}
@@ -34,7 +77,7 @@ const Board = (): ReactNode => {
           <IconButton>
             <MingcuteEdit2Line />
           </IconButton>
-          <IconButton onClick={create}>
+          <IconButton onClick={handleCreateButtonClick}>
             {' '}
             <MingcuteAddLine />
           </IconButton>
@@ -44,7 +87,7 @@ const Board = (): ReactNode => {
       <ul className={styles.lists}>
         {lists.map((list) => (
           <li key={list.id}>
-            <List list={list} />
+            <List list={list} onClick={handleListItemClick} />
           </li>
         ))}
       </ul>

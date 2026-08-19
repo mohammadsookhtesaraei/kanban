@@ -13,10 +13,11 @@ import styles from './ListItem.module.css';
 type Props = {
   listId: string;
   item: ListItemType;
+  onClick?: (listId: string, itemId: string) => void;
 };
 
-const ListItem = ({ item, listId }: Props): ReactNode => {
-  const { itemClick, remove } = useBoardContext();
+const ListItem = ({ item, listId, onClick }: Props): ReactNode => {
+  const { remove } = useBoardContext();
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
@@ -25,7 +26,7 @@ const ListItem = ({ item, listId }: Props): ReactNode => {
   };
 
   return (
-    <div className={styles.item} onClick={() => itemClick(listId, item.id)}>
+    <div className={styles.item} onClick={() => onClick?.(listId, item.id)}>
       {item.title}
       <IconButton onClick={handleRemoveItemButtonClick}>
         <MingcuteDelete2Line />

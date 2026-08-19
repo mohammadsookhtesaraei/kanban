@@ -11,9 +11,10 @@ import styles from './List.module.css';
 
 type Props = {
   list: ListType;
+  onClick?: (listId: string, itemId: string) => void;
 };
 
-const List = ({ list: { id, title, items } }: Props): ReactNode => {
+const List = ({ list: { id, title, items }, onClick }: Props): ReactNode => {
   return (
     <div key={id} className={styles.list}>
       <div className={styles.header}>
@@ -26,7 +27,7 @@ const List = ({ list: { id, title, items } }: Props): ReactNode => {
         {/* we should pass listId as props to ListItem for setState activeListid  */}
         {items.map((item) => (
           <li key={item.id}>
-            <ListItem listId={id} item={item} />
+            <ListItem listId={id} item={item} onClick={onClick} />
           </li>
         ))}
       </ul>
