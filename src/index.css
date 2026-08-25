@@ -22,6 +22,8 @@ optgroup {
 
 html {
   font-family: 'Vazirmatn', sans-serif;
+  caret-color: var(--color-primary);
+  accent-color: var(--color-primary);
 }
 
 body {

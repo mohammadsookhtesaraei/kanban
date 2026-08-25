@@ -1,4 +1,4 @@
-import type { ReactNode, RefObject } from 'react';
+import type { MouseEvent, ReactNode, RefObject } from 'react';
 import { type ComponentProps } from 'react';
 
 import clsx from 'clsx';
@@ -18,14 +18,27 @@ const Modal = ({
   className,
   children,
   heading,
+  onClick,
   ...otherProps
 }: Props): ReactNode => {
+  const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
+    if (e.currentTarget === e.target) {
+      ref.current?.close();
+    }
+
+    onClick?.(e);
+  };
   const handleCloseButtonClick = (): void => {
     ref.current?.close();
   };
 
   return (
-    <dialog ref={ref} className={clsx(styles.modal, className)} {...otherProps}>
+    <dialog
+      ref={ref}
+      onClick={handleDialogClick}
+      className={clsx(styles.modal, className)}
+      {...otherProps}
+    >
       <header>
         <div className={styles.heading}>{heading}</div>
         <div className={styles.actions}>
