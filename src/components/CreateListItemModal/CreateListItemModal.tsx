@@ -1,4 +1,4 @@
-import type { ComponentProps, ReactNode } from 'react';
+import { type ComponentProps, type ReactNode, useRef, useState } from 'react';
 
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
@@ -24,8 +24,16 @@ const CreateListItemModal = ({
   contentClassName,
   ...otherProps
 }: CreateListItemModalProps): ReactNode => {
+  // input validation pass as a props to textInput
+  const [titleError, setTitleError] = useState<string | null>(null);
+
+  // context for get data from form and add to list
   const { create } = useBoardContext();
 
+  // use Ref for reset form
+  const formref = useRef<HTMLFormElement | null>(null);
+
+  // handle submit form
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
@@ -33,19 +41,54 @@ const CreateListItemModal = ({
     const id = globalThis.crypto.randomUUID();
     const title = formData.get('title') as string;
 
-    create(listId, { id, title });
+    // validation fn
+    if (!validateTitle(title)) {
+      return;
+    }
+
+    // create from useBoardContexthook
+    create(listId, { id, title: title.trim() });
+
+    // toast
     toast.success('Item created successfully');
 
+    // reset value form after submit
     e.currentTarget.reset();
+    // and close modal after form submit
     ref.current?.close();
   };
 
+  // onClose modal pass as a props
+  const handleModalClose = (): void => {
+    setTitleError(null);
+    formref.current?.reset();
+  };
+
+  // cancel button
   const handleCancelButtonClick = (): void => {
+    setTitleError(null);
     ref.current?.close();
+  };
+
+  // validate form fn
+  const validateTitle = (title: unknown): boolean => {
+    if (typeof title !== 'string') {
+      setTitleError('Title must be a string.');
+      return false;
+    }
+
+    if (title.trim().length === 0) {
+      setTitleError('Title cannot be empty.');
+      return false;
+    }
+
+    setTitleError(null);
+    return true;
   };
 
   return (
     <Modal
+      onClose={handleModalClose}
       ref={ref}
       heading="Create new Item"
       contentClassName={clsx(
@@ -54,8 +97,8 @@ const CreateListItemModal = ({
       )}
       {...otherProps}
     >
-      <form onSubmit={handleFormSubmit}>
-        <TextInput label="Title" name="title" />
+      <form ref={formref} onSubmit={handleFormSubmit}>
+        <TextInput label="Title" name="title" error={titleError} />
         <div className={styles.actions}>
           <Button type="reset" onClick={handleCancelButtonClick}>
             Cancel

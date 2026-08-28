@@ -12,3 +12,15 @@
   outline: 2px solid var(--color-primary);
   outline-offset: -2px;
 }
+
+.text-input {
+  &.error {
+    input {
+      border-color: var(--color-danger);
+    }
+
+    span {
+      color: var(--color-danger);
+    }
+  }
+}

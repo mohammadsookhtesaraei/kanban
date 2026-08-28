@@ -105,6 +105,10 @@
   /* color-backdrop */
 
   --color-backdrop: hsl(0, 0%, 0%, 40%);
+
+  /* color-error */
+
+  --color-danger: var(--color-red-7);
 }
 
 .gray {
