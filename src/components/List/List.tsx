@@ -1,8 +1,10 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, useRef } from 'react';
 
+import CreateListItemModal from '@/components/CreateListItemModal/CreateListItemModal';
 import IconButton from '@/components/IconButton/IconButton';
 import ListItem from '@/components/ListItem/ListItem';
 
+import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteMore1Line from '@/icons/MingcuteMore1Line';
 
 import type { ListType } from '@/types/list';
@@ -14,13 +16,23 @@ type Props = {
 };
 
 const List = ({ list: { id, title, items } }: Props): ReactNode => {
+  const ref = useRef<HTMLDialogElement | null>(null);
+
+  const handleOpenButtonClick = (): void => {
+    ref.current?.showModal();
+  };
   return (
     <div key={id} className={styles.list}>
       <div className={styles.header}>
         <div className={styles.title}>{title}</div>
-        <IconButton>
-          <MingcuteMore1Line />
-        </IconButton>
+        <div className={styles.actions}>
+          <IconButton onClick={handleOpenButtonClick}>
+            <MingcuteAddLine />
+          </IconButton>
+          <IconButton>
+            <MingcuteMore1Line />
+          </IconButton>
+        </div>
       </div>
       <ul className={styles.items}>
         {/* we should pass listId as props to ListItem for setState activeListid  */}
@@ -30,6 +42,7 @@ const List = ({ list: { id, title, items } }: Props): ReactNode => {
           </li>
         ))}
       </ul>
+      <CreateListItemModal ref={ref} listId={id} />
     </div>
   );
 };

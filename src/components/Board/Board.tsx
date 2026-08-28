@@ -15,13 +15,8 @@ import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  const { lists, create, move } = useBoardContext();
+  const { lists, move } = useBoardContext();
   const { activeListId, activeItemId, deactivate } = useActiveItemContext();
-
-  const handleCreateButtonClick = (): void => {
-    create();
-    toast.success('Item created successfully');
-  };
 
   const handleMoveCreateButtonClick = (destinationListId: string): void => {
     if (activeListId && activeItemId) {
@@ -54,7 +49,7 @@ const Board = (): ReactNode => {
           <IconButton>
             <MingcuteEdit2Line />
           </IconButton>
-          <IconButton onClick={handleCreateButtonClick}>
+          <IconButton>
             {' '}
             <MingcuteAddLine />
           </IconButton>
