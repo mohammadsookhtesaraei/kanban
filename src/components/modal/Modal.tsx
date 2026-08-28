@@ -12,6 +12,7 @@ import styles from './Modal.module.css';
 type Props = ComponentProps<'dialog'> & {
   heading: string;
   ref: RefObject<HTMLDialogElement | null>;
+  contentClassName?: string;
 };
 const Modal = ({
   ref,
@@ -19,6 +20,7 @@ const Modal = ({
   children,
   heading,
   onClick,
+  contentClassName,
   ...otherProps
 }: Props): ReactNode => {
   const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
@@ -47,7 +49,7 @@ const Modal = ({
           </IconButton>
         </div>
       </header>
-      <main>{children}</main>
+      <main className={contentClassName}>{children}</main>
     </dialog>
   );
 };

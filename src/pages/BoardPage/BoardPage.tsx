@@ -2,7 +2,7 @@ import { type ReactNode, useRef } from 'react';
 
 import Board from '@/components/Board/Board';
 import Button from '@/components/Button/Button';
-import Modal from '@/components/modal/Modal';
+import CreateListItemModal from '@/components/CreateListItemModal/CreateListItemModal';
 
 import ActiveItemProvider from '@/providers/ActiveItemProvider';
 import BoardProvider from '@/providers/BoardProvider';
@@ -23,9 +23,7 @@ const BoardPage = (): ReactNode => {
             click
           </Button>
           <Board />
-          <Modal ref={ref} heading="this is a modal">
-            this is children
-          </Modal>
+          <CreateListItemModal ref={ref} />
         </div>
       </ActiveItemProvider>
     </BoardProvider>
