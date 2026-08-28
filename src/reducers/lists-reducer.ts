@@ -1,8 +1,11 @@
 import type { ListType } from '@/types/list';
+import type { ListItemType } from '@/types/list-item';
 
 type Action =
   | {
       type: 'created';
+      listId: string;
+      item: ListItemType;
     }
   | {
       type: 'moved';
@@ -19,9 +22,29 @@ type Action =
 export function listsReducer(state: ListType[], action: Action): ListType[] {
   switch (action.type) {
     case 'created': {
+      // find active list index
+      const activeListIndex = state.findIndex(
+        (list) => list.id === action.listId /* state */
+      );
+
+      // validation
+      if (activeListIndex === -1) {
+        console.error('cannot find desire list');
+        return state;
+      }
+
+      // clone array list
       const clone = [...state];
-      const id = globalThis.crypto.randomUUID();
-      clone[0] = { ...clone[0], items: [...clone[0].items, { id, title: id }] };
+
+      // clone - acitve list object from array
+      const activeList = {
+        ...clone[activeListIndex],
+        items: [...clone[activeListIndex].items],
+      };
+
+      activeList.items.push(action.item);
+
+      clone[activeListIndex] = activeList;
       return clone;
     }
 

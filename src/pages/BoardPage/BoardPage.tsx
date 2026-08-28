@@ -23,7 +23,7 @@ const BoardPage = (): ReactNode => {
             click
           </Button>
           <Board />
-          <CreateListItemModal ref={ref} />
+          <CreateListItemModal ref={ref} listId="1" />
         </div>
       </ActiveItemProvider>
     </BoardProvider>
