@@ -1,4 +1,10 @@
-import { type ComponentProps, type ReactNode, useRef, useState } from 'react';
+import {
+  type ChangeEvent,
+  type ComponentProps,
+  type ReactNode,
+  useRef,
+  useState,
+} from 'react';
 
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
@@ -24,8 +30,14 @@ const CreateListItemModal = ({
   contentClassName,
   ...otherProps
 }: CreateListItemModalProps): ReactNode => {
+  // state input
+  const [title, setTitle] = useState<string>('');
+
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
+
+  // should validate
+  const shouldValidateOnChange = useRef<boolean>(false);
 
   // context for get data from form and add to list
   const { create } = useBoardContext();
@@ -33,21 +45,24 @@ const CreateListItemModal = ({
   // use Ref for reset form
   const formref = useRef<HTMLFormElement | null>(null);
 
+  const handleFormReset = (): void => {
+    setTitle('');
+    shouldValidateOnChange.current = false;
+  };
+
   // handle submit form
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
     const id = globalThis.crypto.randomUUID();
-    const title = formData.get('title') as string;
 
+    shouldValidateOnChange.current = true;
     // validation fn
     if (!validateTitle(title)) {
       return;
     }
 
     // create from useBoardContexthook
-    create(listId, { id, title: title.trim() });
+    create(listId, { id, title });
 
     // toast
     toast.success('Item created successfully');
@@ -70,15 +85,25 @@ const CreateListItemModal = ({
     ref.current?.close();
   };
 
+  // title onchange
+
+  const HandleTitleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const value = e.target.value.trim();
+    if (shouldValidateOnChange.current) {
+      validateTitle(value);
+    }
+    setTitle(value);
+  };
+
   // validate form fn
-  const validateTitle = (title: unknown): boolean => {
-    if (typeof title !== 'string') {
-      setTitleError('Title must be a string.');
+  const validateTitle = (title: string): boolean => {
+    if (title.length === 0) {
+      setTitleError('Title cannot be empty.');
       return false;
     }
 
-    if (title.trim().length === 0) {
-      setTitleError('Title cannot be empty.');
+    if (title.length < 5) {
+      setTitleError('Title must be at least 5 characters.');
       return false;
     }
 
@@ -97,8 +122,14 @@ const CreateListItemModal = ({
       )}
       {...otherProps}
     >
-      <form ref={formref} onSubmit={handleFormSubmit}>
-        <TextInput label="Title" name="title" error={titleError} />
+      <form ref={formref} onReset={handleFormReset} onSubmit={handleFormSubmit}>
+        <TextInput
+          label="Title"
+          name="title"
+          error={titleError}
+          value={title}
+          onChange={HandleTitleOnChange}
+        />
         <div className={styles.actions}>
           <Button type="reset" onClick={handleCancelButtonClick}>
             Cancel
