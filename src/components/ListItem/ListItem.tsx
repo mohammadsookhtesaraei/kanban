@@ -13,18 +13,19 @@ import type { ListItemType } from '@/types/list-item';
 import styles from './ListItem.module.css';
 
 type Props = {
-  listId: string;
+  listIndex: number;
+  itemIndex: number;
   item: ListItemType;
 };
 
-const ListItem = ({ item, listId }: Props): ReactNode => {
+const ListItem = ({ itemIndex, listIndex, item }: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
     e.stopPropagation();
-    dispatchLists({ type: 'removed', listId, itemId: item.id });
+    dispatchLists({ type: 'item_removed', listIndex, itemIndex });
     toast.success('Item removed successfully');
   };
 

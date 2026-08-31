@@ -29,9 +29,9 @@ const Board = (): ReactNode => {
       </div>
 
       <ul className={styles.lists}>
-        {lists.map((list) => (
+        {lists.map((list, index) => (
           <li key={list.id}>
-            <List list={list} />
+            <List list={list} listIndex={index} />
           </li>
         ))}
       </ul>

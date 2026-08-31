@@ -12,10 +12,11 @@ import type { ListType } from '@/types/list';
 import styles from './List.module.css';
 
 type Props = {
+  listIndex: number;
   list: ListType;
 };
 
-const List = ({ list: { id, title, items } }: Props): ReactNode => {
+const List = ({ list: { id, title, items }, listIndex }: Props): ReactNode => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleOpenButtonClick = (): void => {
@@ -36,13 +37,13 @@ const List = ({ list: { id, title, items } }: Props): ReactNode => {
       </div>
       <ul className={styles.items}>
         {/* we should pass listId as props to ListItem for setState activeListid  */}
-        {items.map((item) => (
+        {items.map((item, index) => (
           <li key={item.id}>
-            <ListItem listId={id} item={item} />
+            <ListItem listIndex={listIndex} itemIndex={index} item={item} />
           </li>
         ))}
       </ul>
-      <CreateListItemModal ref={modalRef} listId={id} />
+      <CreateListItemModal ref={modalRef} listIndex={listIndex} />
     </div>
   );
 };

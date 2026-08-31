@@ -21,11 +21,11 @@ type CreateListItemModalProps = Omit<
   ComponentProps<typeof Modal>,
   'children' | 'heading'
 > & {
-  listId: string;
+  listIndex: number;
 };
 
 const CreateListItemModal = ({
-  listId,
+  listIndex,
   ref,
   contentClassName,
   ...otherProps
@@ -62,7 +62,7 @@ const CreateListItemModal = ({
     }
 
     // create from useBoardContexthook
-    dispatchLists({ type: 'created', listId, item: { id, title } });
+    dispatchLists({ type: 'item_created', listIndex, item: { id, title } });
 
     // toast
     toast.success('Item created successfully');
