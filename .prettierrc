@@ -13,6 +13,7 @@
     "^react-error-boundray(/(.*))?$",
     "^(immer|use-immer)(/(.*))?$",
     "^@tanstack(/(.*))?$",
+    "^@dnd-kit(/(.*))?$",
     "^@react-toastify(/(.*))?$",
     "^@clsx(/(.*))?$",
     "<THIRD_PARTY_MODULES>",
