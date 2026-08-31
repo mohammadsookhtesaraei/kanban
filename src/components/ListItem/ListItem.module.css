@@ -7,16 +7,16 @@
   grid-template-columns: 1fr auto;
   align-items: start;
   border: 1px solid transparent;
+  cursor: default;
+  user-select: none;
 }
 
 .item button {
   opacity: 0;
 }
 
-.item button:hover {
-  opacity: 1;
-}
-
-.active {
-  border-color: var(--color-primary);
+.item:not(.presentational) {
+  button:hover {
+    opacity: 1;
+  }
 }

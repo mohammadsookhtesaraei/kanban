@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
+import clsx from 'clsx';
 import { toast } from 'react-toastify';
 
 import IconButton from '@/components/IconButton/IconButton';
@@ -19,16 +20,28 @@ type Props = {
   listIndex: number;
   itemIndex: number;
   item: ListItemType;
+  presentational?: boolean;
 };
 
-const ListItem = ({ itemIndex, listIndex, item }: Props): ReactNode => {
+const ListItem = ({
+  itemIndex,
+  listIndex,
+  item,
+  presentational,
+}: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
-  const { transform, transition, listeners, setNodeRef, attributes } =
-    useSortable({
-      id: item.id,
-      data: { isList: false, listIndex, itemIndex, item },
-    });
+  const {
+    transform,
+    transition,
+    listeners,
+    setNodeRef,
+    attributes,
+    isDragging,
+  } = useSortable({
+    id: item.id,
+    data: { isList: false, listIndex, itemIndex, item },
+  });
 
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -41,8 +54,9 @@ const ListItem = ({ itemIndex, listIndex, item }: Props): ReactNode => {
   return (
     <div
       ref={setNodeRef}
-      className={styles.item}
+      className={clsx(styles.item, presentational && styles.presentational)}
       style={{
+        opacity: isDragging ? '0.5' : undefined,
         transform: CSS.Translate.toString(transform),
         transition,
       }}

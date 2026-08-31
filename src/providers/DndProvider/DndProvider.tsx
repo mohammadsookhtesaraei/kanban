@@ -1,11 +1,17 @@
-import type { PropsWithChildren, ReactNode } from 'react';
+import { type PropsWithChildren, type ReactNode, useState } from 'react';
 
 import {
   DndContext,
+  DragOverlay,
+  type DragStartEvent,
   PointerSensor,
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
+
+import ListItem from '@/components/ListItem/ListItem';
+
+import type { DraggableData } from '@/types/draggable-data';
 
 // dndContext : تمام کامپوننت‌هایی که قرار است قابلیت کشیدن و رها کردن داشته باشند، باید داخل
 // DndContext قرار بگیرند.
@@ -13,6 +19,7 @@ import {
 type Props = PropsWithChildren;
 
 const DndProvider = ({ children }: Props): ReactNode => {
+  const [activeData, setActiceData] = useState<DraggableData | null>(null);
   //useSensors: در
   // dnd-kit
   //  برای تعریف روش تشخیص
@@ -27,6 +34,32 @@ const DndProvider = ({ children }: Props): ReactNode => {
   // Mouse، Touch و Pointer
   // را پوشش می‌دهد
 
-  return <DndContext sensors={sensors}>{children}</DndContext>;
+  const handleDragStart = (e: DragStartEvent): void => {
+    setActiceData(e.active.data.current as DraggableData);
+  };
+
+  const handleDragEnd = (): void => {
+    setActiceData(null);
+  };
+  return (
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
+      {children}
+      <DragOverlay>
+        {activeData &&
+          (activeData.isList ? null : (
+            <ListItem
+              presentational={true}
+              listIndex={activeData.listIndex}
+              itemIndex={activeData.itemIndex}
+              item={activeData.item}
+            />
+          ))}
+      </DragOverlay>
+    </DndContext>
+  );
 };
 export default DndProvider;
