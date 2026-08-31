@@ -11,6 +11,7 @@
     "^(react|react-dom)(/(.*))?$",
     "^react-router(/(.*))?$",
     "^react-error-boundray(/(.*))?$",
+    "^(immer|use-immer)(/(.*))?$",
     "^@tanstack(/(.*))?$",
     "^@react-toastify(/(.*))?$",
     "^@clsx(/(.*))?$",
