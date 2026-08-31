@@ -26,9 +26,9 @@ const Modal = ({
   const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
     if (e.currentTarget === e.target) {
       ref.current?.close();
+    } else {
+      onClick?.(e);
     }
-
-    onClick?.(e);
   };
   const handleCloseButtonClick = (): void => {
     ref.current?.close();

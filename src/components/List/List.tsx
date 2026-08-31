@@ -16,10 +16,10 @@ type Props = {
 };
 
 const List = ({ list: { id, title, items } }: Props): ReactNode => {
-  const ref = useRef<HTMLDialogElement | null>(null);
+  const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleOpenButtonClick = (): void => {
-    ref.current?.showModal();
+    modalRef.current?.showModal();
   };
   return (
     <div key={id} className={styles.list}>
@@ -42,7 +42,7 @@ const List = ({ list: { id, title, items } }: Props): ReactNode => {
           </li>
         ))}
       </ul>
-      <CreateListItemModal ref={ref} listId={id} />
+      <CreateListItemModal ref={modalRef} listId={id} />
     </div>
   );
 };
