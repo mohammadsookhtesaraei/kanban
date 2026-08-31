@@ -2,21 +2,21 @@ import type { ListType } from '@/types/list';
 
 export const listData: ListType[] = [
   {
-    id: '1',
+    id: 'list-1',
     title: '🔜 To Do',
     items: [
-      { id: '1', title: 'set up backend' },
-      { id: '2', title: 'create modal' },
-      { id: '3', title: 'add tailwind' },
+      { id: 'item-1', title: 'set up backend' },
+      { id: 'item-2', title: 'create modal' },
+      { id: 'item-3', title: 'add tailwind' },
     ],
   },
   {
-    id: '2',
+    id: 'list-2',
     title: '🔨 Doing',
-    items: [{ id: '1', title: 'set up backend' }],
+    items: [{ id: 'item-4', title: 'set up backend' }],
   },
   {
-    id: '3',
+    id: 'list-3',
     title: '🎉 Done',
     items: [],
   },

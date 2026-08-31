@@ -1,7 +1,7 @@
 import type { ListType } from '@/types/list';
 import type { ListItemType } from '@/types/list-item';
 
-type Action =
+export type ListAction =
   | {
       type: 'created';
       listId: string;
@@ -19,7 +19,10 @@ type Action =
       listId: string;
     };
 
-export function listsReducer(state: ListType[], action: Action): ListType[] {
+export function listsReducer(
+  state: ListType[],
+  action: ListAction
+): ListType[] {
   switch (action.type) {
     case 'created': {
       // find active list index

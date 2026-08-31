@@ -40,7 +40,7 @@ const CreateListItemModal = ({
   const shouldValidateOnChange = useRef<boolean>(false);
 
   // context for get data from form and add to list
-  const { create } = useBoardContext();
+  const { dispatchLists } = useBoardContext();
 
   // use Ref for reset form
   const formref = useRef<HTMLFormElement | null>(null);
@@ -62,7 +62,7 @@ const CreateListItemModal = ({
     }
 
     // create from useBoardContexthook
-    create(listId, { id, title });
+    dispatchLists({ type: 'created', listId, item: { id, title } });
 
     // toast
     toast.success('Item created successfully');

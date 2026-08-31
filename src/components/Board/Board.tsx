@@ -15,12 +15,17 @@ import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 import styles from './Board.module.css';
 
 const Board = (): ReactNode => {
-  const { lists, move } = useBoardContext();
+  const { lists, dispatchLists } = useBoardContext();
   const { activeListId, activeItemId, deactivate } = useActiveItemContext();
 
   const handleMoveCreateButtonClick = (destinationListId: string): void => {
     if (activeListId && activeItemId) {
-      move(destinationListId, activeListId, activeItemId);
+      dispatchLists({
+        type: 'moved',
+        listId: activeListId,
+        itemId: activeItemId,
+        destinationId: destinationListId,
+      });
       toast.success('Item moved successfully');
     }
     deactivate();
