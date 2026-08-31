@@ -1,5 +1,8 @@
 import { type ReactNode, useRef } from 'react';
 
+import { useDroppable } from '@dnd-kit/core';
+import { SortableContext } from '@dnd-kit/sortable';
+
 import CreateListItemModal from '@/components/CreateListItemModal/CreateListItemModal';
 import IconButton from '@/components/IconButton/IconButton';
 import ListItem from '@/components/ListItem/ListItem';
@@ -16,7 +19,14 @@ type Props = {
   list: ListType;
 };
 
-const List = ({ list: { id, title, items }, listIndex }: Props): ReactNode => {
+const List = ({ list, listIndex }: Props): ReactNode => {
+  const { id, title, items } = list;
+
+  const { setNodeRef } = useDroppable({
+    id: id,
+    data: { isList: true, listIndex, list },
+  });
+
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
   const handleOpenButtonClick = (): void => {
@@ -35,14 +45,16 @@ const List = ({ list: { id, title, items }, listIndex }: Props): ReactNode => {
           </IconButton>
         </div>
       </div>
-      <ul className={styles.items}>
-        {/* we should pass listId as props to ListItem for setState activeListid  */}
-        {items.map((item, index) => (
-          <li key={item.id}>
-            <ListItem listIndex={listIndex} itemIndex={index} item={item} />
-          </li>
-        ))}
-      </ul>
+      <SortableContext id={id} items={items.map((item) => item.id)}>
+        <ul ref={setNodeRef} className={styles.items}>
+          {/* we should pass listId as props to ListItem for setState activeListid  */}
+          {items.map((item, index) => (
+            <li key={item.id}>
+              <ListItem listIndex={listIndex} itemIndex={index} item={item} />
+            </li>
+          ))}
+        </ul>
+      </SortableContext>
       <CreateListItemModal ref={modalRef} listIndex={listIndex} />
     </div>
   );

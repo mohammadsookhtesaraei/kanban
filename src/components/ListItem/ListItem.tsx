@@ -1,5 +1,8 @@
 import type { ReactNode } from 'react';
 
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+
 import { toast } from 'react-toastify';
 
 import IconButton from '@/components/IconButton/IconButton';
@@ -21,6 +24,12 @@ type Props = {
 const ListItem = ({ itemIndex, listIndex, item }: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
+  const { transform, transition, listeners, setNodeRef, attributes } =
+    useSortable({
+      id: item.id,
+      data: { isList: false, listIndex, itemIndex, item },
+    });
+
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void => {
@@ -30,9 +39,18 @@ const ListItem = ({ itemIndex, listIndex, item }: Props): ReactNode => {
   };
 
   return (
-    <div className={styles.item}>
+    <div
+      ref={setNodeRef}
+      className={styles.item}
+      style={{
+        transform: CSS.Translate.toString(transform),
+        transition,
+      }}
+      {...listeners}
+      {...attributes}
+    >
       {item.title}
-      <IconButton onClick={handleRemoveItemButtonClick}>
+      <IconButton onPointerDown={handleRemoveItemButtonClick}>
         <MingcuteDelete2Line />
       </IconButton>
     </div>
