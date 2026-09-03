@@ -38,10 +38,13 @@ const ListItem = ({
     setNodeRef,
     attributes,
     isDragging,
+    over,
   } = useSortable({
     id: item.id,
     data: { isList: false, listIndex, itemIndex, item },
   });
+
+  const overListIndex = over?.data?.current?.listIndex;
 
   const handleRemoveItemButtonClick = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -58,7 +61,7 @@ const ListItem = ({
       style={{
         opacity: isDragging ? '0.5' : undefined,
         transform: CSS.Translate.toString(transform),
-        transition,
+        transition: listIndex === overListIndex ? transition : undefined,
       }}
       {...listeners}
       {...attributes}
