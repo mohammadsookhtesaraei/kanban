@@ -3,6 +3,7 @@ import { type PropsWithChildren, type ReactNode, useState } from 'react';
 import {
   DndContext,
   type DragEndEvent,
+  type DragOverEvent,
   DragOverlay,
   type DragStartEvent,
   PointerSensor,
@@ -23,7 +24,7 @@ type Props = PropsWithChildren;
 
 const DndProvider = ({ children }: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
-  const [activeData, setActiceData] = useState<DraggableData | null>(null);
+  const [activeData, setActiveData] = useState<DraggableData | null>(null);
   //useSensors: در
   // dnd-kit
   //  برای تعریف روش تشخیص
@@ -39,11 +40,11 @@ const DndProvider = ({ children }: Props): ReactNode => {
   // را پوشش می‌دهد
 
   const handleDragStart = (e: DragStartEvent): void => {
-    setActiceData(e.active.data.current as DraggableData);
+    setActiveData(e.active.data.current as DraggableData);
   };
 
   const handleDragEnd = (e: DragEndEvent): void => {
-    setActiceData(null);
+    setActiveData(null);
 
     if (!e.over) {
       return;
@@ -56,11 +57,27 @@ const DndProvider = ({ children }: Props): ReactNode => {
       overItemIndex: e.over.data.current!.itemIndex,
     });
   };
+
+  const handlerDragOver = (e: DragOverEvent): void => {
+    if (!e.over) {
+      return;
+    }
+
+    dispatchLists({
+      type: 'item_dragged_over',
+      activeListIndex: e.active.data.current!.listIndex,
+      activeItemIndex: e.active.data.current!.itemIndex,
+      overItemIndex: e.over.data.current!.itemIndex,
+      overListIndex: e.over.data.current!.listIndex,
+    });
+  };
+
   return (
     <DndContext
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onDragOver={handlerDragOver}
     >
       {children}
       <DragOverlay>

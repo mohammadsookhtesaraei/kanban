@@ -6,21 +6,20 @@ import type { ListType } from '@/types/list';
 import type { ListItemType } from '@/types/list-item';
 
 export type ListAction =
-  | {
-      type: 'item_created';
-      listIndex: number;
-      item: ListItemType;
-    }
-  | {
-      type: 'item_removed';
-      listIndex: number;
-      itemIndex: number;
-    }
+  | { type: 'item_created'; listIndex: number; item: ListItemType }
+  | { type: 'item_removed'; listIndex: number; itemIndex: number }
   | {
       type: 'item_dragged_end';
       activeListIndex: number;
       activeItemIndex: number;
       overItemIndex: number;
+    }
+  | {
+      type: 'item_dragged_over';
+      activeListIndex: number;
+      activeItemIndex: number;
+      overItemIndex?: number;
+      overListIndex: number;
     };
 
 export function listsReducer(
@@ -47,6 +46,25 @@ export function listsReducer(
         activeItemIndex,
         overItemIndex
       );
+
+      return;
+    }
+
+    case 'item_dragged_over': {
+      const { activeListIndex, activeItemIndex, overListIndex, overItemIndex } =
+        action;
+
+      if (activeListIndex === overListIndex) {
+        return;
+      }
+
+      const activeList = draft[activeListIndex];
+      const acvtiveItem = activeList.items[activeItemIndex];
+      const overList = draft[overListIndex];
+
+      const newIndex = overItemIndex ?? overList.items.length;
+      overList.items.splice(newIndex, 0, acvtiveItem);
+      activeList.items.splice(activeItemIndex, 1);
 
       return;
     }

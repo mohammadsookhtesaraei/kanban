@@ -5,7 +5,7 @@ export const listData: ListType[] = [
     id: 'list-1',
     title: '🔜 To Do',
     items: [
-      { id: 'item-1', title: 'set up backend' },
+      { id: 'item-1', title: 'set up' },
       { id: 'item-2', title: 'create modal' },
       { id: 'item-3', title: 'add tailwind' },
     ],
