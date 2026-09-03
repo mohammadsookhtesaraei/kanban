@@ -15,6 +15,8 @@ import ListItem from '@/components/ListItem/ListItem';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
 
+import { detectCollision } from '@/providers/DndProvider/utils/collision-detection';
+
 import type { DraggableData } from '@/types/draggable-data';
 
 // dndContext : تمام کامپوننت‌هایی که قرار است قابلیت کشیدن و رها کردن داشته باشند، باید داخل
@@ -74,6 +76,7 @@ const DndProvider = ({ children }: Props): ReactNode => {
 
   return (
     <DndContext
+      collisionDetection={detectCollision}
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
