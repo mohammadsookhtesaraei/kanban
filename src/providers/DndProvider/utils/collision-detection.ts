@@ -2,7 +2,30 @@ import { type CollisionDetection, closestCorners } from '@dnd-kit/core';
 import { arraySwap } from '@dnd-kit/sortable';
 
 export const detectCollision: CollisionDetection = (args) => {
-  return detectItemCollision(args);
+  return args.active.data.current!.isList
+    ? detectListCollision(args)
+    : detectItemCollision(args);
+};
+
+const detectListCollision: CollisionDetection = (args) => {
+  const pointerX = args.pointerCoordinates!.x;
+  const containers = args.droppableContainers.filter(
+    (item) => item.data.current!.isList
+  );
+
+  let minDistance = Number.POSITIVE_INFINITY;
+  let closestCorners = containers[0];
+
+  containers.forEach((container) => {
+    const distance = Math.abs(pointerX - container.rect.current!.left);
+
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestCorners = container;
+    }
+  });
+
+  return [{ id: closestCorners.id }];
 };
 
 const detectItemCollision: CollisionDetection = (args) => {

@@ -11,6 +11,7 @@ import {
   useSensors,
 } from '@dnd-kit/core';
 
+import List from '@/components/List/List';
 import ListItem from '@/components/ListItem/ListItem';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
@@ -52,16 +53,24 @@ const DndProvider = ({ children }: Props): ReactNode => {
       return;
     }
 
-    dispatchLists({
-      type: 'item_dragged_end',
-      activeListIndex: e.active.data.current!.listIndex,
-      activeItemIndex: e.active.data.current!.itemIndex,
-      overItemIndex: e.over.data.current!.itemIndex,
-    });
+    if (e.active.data.current!.isList) {
+      dispatchLists({
+        type: 'list_dragged_end',
+        activeListIndex: e.active.data.current!.listIndex,
+        overListIndex: e.over.data.current!.listIndex,
+      });
+    } else {
+      dispatchLists({
+        type: 'item_dragged_end',
+        activeListIndex: e.active.data.current!.listIndex,
+        activeItemIndex: e.active.data.current!.itemIndex,
+        overItemIndex: e.over.data.current!.itemIndex,
+      });
+    }
   };
 
   const handlerDragOver = (e: DragOverEvent): void => {
-    if (!e.over) {
+    if (!e.over || e.active.data.current!.isList) {
       return;
     }
 
@@ -85,9 +94,15 @@ const DndProvider = ({ children }: Props): ReactNode => {
       {children}
       <DragOverlay>
         {activeData &&
-          (activeData.isList ? null : (
+          (activeData.isList ? (
+            <List
+              presentational
+              list={activeData.list}
+              listIndex={activeData.listIndex}
+            />
+          ) : (
             <ListItem
-              presentational={true}
+              presentational
               listIndex={activeData.listIndex}
               itemIndex={activeData.itemIndex}
               item={activeData.item}

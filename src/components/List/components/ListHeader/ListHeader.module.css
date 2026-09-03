@@ -6,3 +6,12 @@
   gap: 1rem;
   padding: 1rem 1rem 0.5rem;
 }
+
+.drag {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  cursor: default;
+  user-select: none;
+}

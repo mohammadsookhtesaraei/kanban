@@ -12,9 +12,10 @@ import styles from './ListItems.module.css';
 type Props = {
   listIndex: number;
   list: ListType;
+  presentational?: boolean;
 };
 
-const ListItems = ({ listIndex, list }: Props): ReactNode => {
+const ListItems = ({ listIndex, list, presentational }: Props): ReactNode => {
   const { setNodeRef } = useDroppable({
     id: list.id,
     data: { isList: true, listIndex, list },
@@ -25,7 +26,12 @@ const ListItems = ({ listIndex, list }: Props): ReactNode => {
       <ul ref={setNodeRef} className={styles.items}>
         {list.items.map((item, index) => (
           <li key={item.id}>
-            <ListItem listIndex={listIndex} itemIndex={index} item={item} />
+            <ListItem
+              presentational={presentational}
+              listIndex={listIndex}
+              itemIndex={index}
+              item={item}
+            />
           </li>
         ))}
       </ul>
