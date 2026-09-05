@@ -2,7 +2,8 @@ import { type ReactNode, useRef } from 'react';
 
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 
-import CreateListItemModal from '@/components/CreateListItemModal/CreateListItemModal';
+import ListItemModal from '@/modals/ListItemModal/ListItemModal';
+
 import IconButton from '@/components/IconButton/IconButton';
 
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
@@ -37,7 +38,7 @@ const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
           <MingcuteMore1Line />
         </IconButton>
       </div>
-      <CreateListItemModal ref={modalRef} listIndex={listIndex} />
+      <ListItemModal ref={modalRef} listIndex={listIndex} />
     </div>
   );
 };

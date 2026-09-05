@@ -6,16 +6,16 @@ import {
   useState,
 } from 'react';
 
+import Modal from '@/modals/modal/Modal';
 import clsx from 'clsx';
 import { toast } from 'react-toastify';
 
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
-import Modal from '@/components/modal/Modal';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
 
-import styles from './CreateListItemModal.module.css';
+import styles from './ListItemModal.module.css';
 
 type CreateListItemModalProps = Omit<
   ComponentProps<typeof Modal>,
@@ -24,7 +24,7 @@ type CreateListItemModalProps = Omit<
   listIndex: number;
 };
 
-const CreateListItemModal = ({
+const ListItemModal = ({
   listIndex,
   ref,
   contentClassName,
@@ -141,4 +141,4 @@ const CreateListItemModal = ({
   );
 };
 
-export default CreateListItemModal;
+export default ListItemModal;

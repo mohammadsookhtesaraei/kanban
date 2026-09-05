@@ -3,9 +3,9 @@ import { type ComponentProps } from 'react';
 
 import clsx from 'clsx';
 
-import MingcuteCloseLine from '@/icons/MingcuteCloseLine';
+import IconButton from '@/components/IconButton/IconButton';
 
-import IconButton from '../IconButton/IconButton';
+import MingcuteCloseLine from '@/icons/MingcuteCloseLine';
 
 import styles from './Modal.module.css';
 
