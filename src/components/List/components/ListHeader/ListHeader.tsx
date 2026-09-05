@@ -2,13 +2,13 @@ import { type ReactNode, useRef } from 'react';
 
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
 
-import ListItemModal from '@/modals/ListItemModal/ListItemModal';
-
 import IconButton from '@/components/IconButton/IconButton';
 
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteDotsLine from '@/icons/MingcuteDotsLine';
 import MingcuteMore1Line from '@/icons/MingcuteMore1Line';
+
+import ListItemModal from '@/modals/ListItemModal/ListItemModal';
 
 import styles from './ListHeader.module.css';
 
@@ -21,7 +21,7 @@ type Props = {
 const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
   const modalRef = useRef<HTMLDialogElement | null>(null);
 
-  const handleOpenButtonClick = (): void => {
+  const handleCreateButtonClick = (): void => {
     modalRef.current?.showModal();
   };
   return (
@@ -31,14 +31,14 @@ const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.actions}>
-        <IconButton onClick={handleOpenButtonClick}>
+        <IconButton onClick={handleCreateButtonClick}>
           <MingcuteAddLine />
         </IconButton>
         <IconButton>
           <MingcuteMore1Line />
         </IconButton>
       </div>
-      <ListItemModal ref={modalRef} listIndex={listIndex} />
+      <ListItemModal modalRef={modalRef} listIndex={listIndex} />
     </div>
   );
 };

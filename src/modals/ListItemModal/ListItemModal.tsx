@@ -1,53 +1,28 @@
-import {
-  type ChangeEvent,
-  type ComponentProps,
-  type ReactNode,
-  useRef,
-  useState,
-} from 'react';
+import { type ComponentProps, type ReactNode, useState } from 'react';
 
-import Modal from '@/modals/modal/Modal';
-import clsx from 'clsx';
 import { toast } from 'react-toastify';
 
-import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
 
-import styles from './ListItemModal.module.css';
+import FormModal from '@/modals/FormModal/FormModal';
 
-type CreateListItemModalProps = Omit<
-  ComponentProps<typeof Modal>,
-  'children' | 'heading'
-> & {
+import type { ListItemType } from '@/types/list-item';
+
+type Values = Omit<ListItemType, 'id'>;
+type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
   listIndex: number;
 };
 
-const ListItemModal = ({
-  listIndex,
-  ref,
-  contentClassName,
-  ...otherProps
-}: CreateListItemModalProps): ReactNode => {
-  // state input
-  const [title, setTitle] = useState<string>('');
+const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
+  const { dispatchLists } = useBoardContext();
 
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
 
-  // should validate
-  const shouldValidateOnChange = useRef<boolean>(false);
-
-  // context for get data from form and add to list
-  const { dispatchLists } = useBoardContext();
-
-  // use Ref for reset form
-  const formref = useRef<HTMLFormElement | null>(null);
-
   const handleFormReset = (): void => {
-    setTitle('');
-    shouldValidateOnChange.current = false;
+    setTitleError('');
   };
 
   // handle submit form
@@ -55,44 +30,23 @@ const ListItemModal = ({
     e.preventDefault();
     const id = globalThis.crypto.randomUUID();
 
-    shouldValidateOnChange.current = true;
-    // validation fn
-    if (!validateTitle(title)) {
+    const formData = new FormData(e.currentTarget);
+    const valuse: Values = {
+      title: formData.get('title') as string,
+    };
+
+    if (!validateTitle(valuse.title)) {
       return;
     }
 
     // create from useBoardContexthook
-    dispatchLists({ type: 'item_created', listIndex, item: { id, title } });
+    dispatchLists({ type: 'item_created', listIndex, item: { id, ...valuse } });
 
     // toast
     toast.success('Item created successfully');
 
-    // reset value form after submit
-    e.currentTarget.reset();
     // and close modal after form submit
-    ref.current?.close();
-  };
-
-  // onClose modal pass as a props
-  const handleModalClose = (): void => {
-    setTitleError(null);
-    formref.current?.reset();
-  };
-
-  // cancel button
-  const handleCancelButtonClick = (): void => {
-    setTitleError(null);
-    ref.current?.close();
-  };
-
-  // title onchange
-
-  const HandleTitleOnChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const value = e.target.value.trim();
-    if (shouldValidateOnChange.current) {
-      validateTitle(value);
-    }
-    setTitle(value);
+    modalRef.current?.close();
   };
 
   // validate form fn
@@ -112,32 +66,14 @@ const ListItemModal = ({
   };
 
   return (
-    <Modal
-      onClose={handleModalClose}
-      ref={ref}
+    <FormModal
+      modalRef={modalRef}
       heading="Create new Item"
-      contentClassName={clsx(
-        styles['create-list-item-modal'],
-        contentClassName
-      )}
-      {...otherProps}
+      onReset={handleFormReset}
+      onSubmit={handleFormSubmit}
     >
-      <form ref={formref} onReset={handleFormReset} onSubmit={handleFormSubmit}>
-        <TextInput
-          label="Title"
-          name="title"
-          error={titleError}
-          value={title}
-          onChange={HandleTitleOnChange}
-        />
-        <div className={styles.actions}>
-          <Button type="reset" onClick={handleCancelButtonClick}>
-            Cancel
-          </Button>
-          <Button color="primary">Submit</Button>
-        </div>
-      </form>
-    </Modal>
+      <TextInput label="Title" name="title" error={titleError} />
+    </FormModal>
   );
 };
 
