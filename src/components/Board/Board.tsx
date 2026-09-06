@@ -2,13 +2,10 @@ import { type ReactNode } from 'react';
 
 import { SortableContext } from '@dnd-kit/sortable';
 
-import IconButton from '@/components/IconButton/IconButton';
+import BoardTolbar from '@/components/Board/components/BoardTolbar/BoardTolbar';
 import List from '@/components/List/List';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
-
-import MingcuteAddLine from '@/icons/MingcuteAddLine';
-import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 
 import styles from './Board.module.css';
 
@@ -17,19 +14,7 @@ const Board = (): ReactNode => {
 
   return (
     <div className={styles.board}>
-      <div className={styles.toolbar}>
-        <div className={styles.title}>Board title</div>
-        <div className={styles.actions}>
-          <IconButton>
-            <MingcuteEdit2Line />
-          </IconButton>
-          <IconButton>
-            {' '}
-            <MingcuteAddLine />
-          </IconButton>
-        </div>
-      </div>
-
+      <BoardTolbar />
       <SortableContext id="board" items={lists.map((item) => item.id)}>
         <ul className={styles.lists}>
           {lists.map((list, index) => (

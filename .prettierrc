@@ -24,7 +24,7 @@
     "^@/dto",
     "^@/hooks",
     "^@/icons",
-     "^@/modals",
+    "^@/modals",
     "^@/pages",
     "^@/providers",
     "^@/reducers",

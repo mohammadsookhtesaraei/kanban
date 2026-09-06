@@ -1,0 +1,22 @@
+/* toolbar */
+.toolbar {
+  background-color: var(--color-surface-2);
+  box-shadow: var(--shadow-2);
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--border-radius-2);
+}
+
+.toolbar .title {
+  font-size: var(--fz-500);
+  font-weight: 700;
+}
+
+.toolbar .actions {
+  display: flex;
+  align-items: center;
+}
