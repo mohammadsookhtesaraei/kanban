@@ -1,0 +1,34 @@
+.text-area {
+  --pading: 0.5rem;
+  --border-width: 1px;
+  --pading-and-border: calc(2 * var(--pading) + 2 * var(--border-width));
+  display: grid;
+}
+
+.ttext-area > textarea {
+  min-block-size: calc(1lh + var(--pading-and-border));
+  block-size: calc(3lh + var(--pading-and-border));
+  max-block-size: calc(5lh + var(--pading-and-border));
+
+  border: 1px solid var(--color-border);
+  padding: var(--pading);
+  border-radius: var(--border-radius-1);
+  resize: vertical;
+}
+
+.text-area > textarea:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.text-area {
+  &.error {
+    textarea {
+      border-color: var(--color-danger);
+    }
+
+    span {
+      color: var(--color-danger);
+    }
+  }
+}
