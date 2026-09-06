@@ -6,6 +6,10 @@ import type { ListType } from '@/types/list';
 import type { ListItemType } from '@/types/list-item';
 
 export type ListAction =
+  | {
+      type: 'list_created';
+      list: ListType;
+    }
   | { type: 'item_created'; listIndex: number; item: ListItemType }
   | { type: 'item_removed'; listIndex: number; itemIndex: number }
   | {
@@ -32,6 +36,11 @@ export function listsReducer(
   action: ListAction
 ): void {
   switch (action.type) {
+    case 'list_created': {
+      draft.push(action.list);
+      return;
+    }
+
     case 'item_created': {
       const list = draft[action.listIndex];
       list.items.push(action.item);
