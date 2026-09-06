@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import styles from './Button.module.css';
 
 type Props = ComponentProps<'button'> & {
-  variant?: 'solid' | 'outline';
-  color?: 'primary' | 'default';
+  variant?: 'solid' | 'outline' | 'text';
+  color?: 'primary' | 'default' | 'danger';
 };
 
 const Button = ({
