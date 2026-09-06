@@ -1,0 +1,17 @@
+/* lists-ul */
+.lists {
+  display: flex;
+  overflow: auto;
+  padding-block-end: 0.5rem;
+  gap: 1rem;
+}
+
+/* li */
+.lists > li {
+}
+
+.spacer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
