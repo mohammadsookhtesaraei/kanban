@@ -40,11 +40,7 @@ const List = ({ list, listIndex, presentational }: Props): ReactNode => {
       }}
       {...attributes}
     >
-      <ListHeader
-        listeners={listeners}
-        title={list.title}
-        listIndex={listIndex}
-      />
+      <ListHeader listeners={listeners} list={list} listIndex={listIndex} />
       <ListItems
         presentational={presentational}
         list={list}

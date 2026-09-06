@@ -14,9 +14,14 @@ import type { ListType } from '@/types/list';
 type Values = Omit<ListType, 'id' | 'items'>;
 type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
   listIndex?: number;
+  defaultValues: Partial<Values>;
 };
 
-const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
+const ListModal = ({
+  modalRef,
+  listIndex,
+  defaultValues,
+}: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
   // input validation pass as a props to textInput
@@ -38,7 +43,6 @@ const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
   // handle submit form
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const id = globalThis.crypto.randomUUID();
 
     const formData = new FormData(e.currentTarget);
     const valuse: Values = {
@@ -49,11 +53,22 @@ const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
       return;
     }
 
-    // create from useBoardContexthook
-    dispatchLists({ type: 'list_created', list: { id, items: [], ...valuse } });
+    if (listIndex !== undefined) {
+      // create from useBoardContexthook
+      dispatchLists({ type: 'list_edited', listIndex, list: valuse });
 
-    // toast
-    toast.success('Item created successfully');
+      // toast
+      toast.success('List Edited successfully');
+    } else {
+      const id = globalThis.crypto.randomUUID();
+      dispatchLists({
+        type: 'list_created',
+        list: { id, items: [], ...valuse },
+      });
+
+      // toast
+      toast.success(' List created successfully');
+    }
 
     // and close modal after form submit
     modalRef.current?.close();
@@ -78,7 +93,9 @@ const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
   return (
     <FormModal
       modalRef={modalRef}
-      heading="Create new List"
+      heading={
+        listIndex !== undefined ? 'Edit Existing List' : 'Create a new List'
+      }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
       extraActions={
@@ -94,7 +111,12 @@ const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
         )
       }
     >
-      <TextInput label="Title" name="title" error={titleError} />
+      <TextInput
+        label="Title"
+        name="title"
+        error={titleError}
+        defaultValue={defaultValues?.title}
+      />
     </FormModal>
   );
 };

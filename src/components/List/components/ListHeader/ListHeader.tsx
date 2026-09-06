@@ -11,15 +11,17 @@ import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 import ListItemModal from '@/modals/ListItemModal/ListItemModal';
 import ListModal from '@/modals/ListModal/ListModal';
 
+import type { ListType } from '@/types/list';
+
 import styles from './ListHeader.module.css';
 
 type Props = {
-  title: string;
+  list: ListType;
   listIndex: number;
   listeners?: SyntheticListenerMap;
 };
 
-const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
+const ListHeader = ({ list, listIndex, listeners }: Props): ReactNode => {
   const listmodalRef = useRef<HTMLDialogElement | null>(null);
   const listItemmodalRef = useRef<HTMLDialogElement | null>(null);
 
@@ -34,7 +36,7 @@ const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
     <div className={styles.header}>
       <div className={styles.drag} {...listeners}>
         <MingcuteDotsLine />
-        <div className={styles.title}>{title}</div>
+        <div className={styles.title}>{list.title}</div>
       </div>
       <div className={styles.actions}>
         <IconButton onClick={handleEditListButtonClick}>
@@ -44,7 +46,11 @@ const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
           <MingcuteAddLine />
         </IconButton>
       </div>
-      <ListModal modalRef={listmodalRef} listIndex={listIndex} />
+      <ListModal
+        modalRef={listmodalRef}
+        listIndex={listIndex}
+        defaultValues={list}
+      />
       <ListItemModal modalRef={listItemmodalRef} listIndex={listIndex} />
     </div>
   );
