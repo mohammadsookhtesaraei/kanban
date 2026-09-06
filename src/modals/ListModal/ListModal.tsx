@@ -2,6 +2,7 @@ import { type ComponentProps, type ReactNode, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
@@ -11,13 +12,24 @@ import FormModal from '@/modals/FormModal/FormModal';
 import type { ListType } from '@/types/list';
 
 type Values = Omit<ListType, 'id' | 'items'>;
-type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {};
+type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
+  listIndex?: number;
+};
 
-const ListModal = ({ modalRef }: Props): ReactNode => {
+const ListModal = ({ modalRef, listIndex }: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
+
+  const handleRemoveButtonClick = (): void => {
+    if (listIndex === undefined) {
+      return;
+    }
+    dispatchLists({ type: 'list_removed', listIndex });
+    toast.success('List removed successfully');
+    modalRef.current?.close();
+  };
 
   const handleFormReset = (): void => {
     setTitleError('');
@@ -69,6 +81,18 @@ const ListModal = ({ modalRef }: Props): ReactNode => {
       heading="Create new List"
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
+      extraActions={
+        listIndex !== undefined && (
+          <Button
+            type="button"
+            variant="text"
+            color="danger"
+            onClick={handleRemoveButtonClick}
+          >
+            Remove
+          </Button>
+        )
+      }
     >
       <TextInput label="Title" name="title" error={titleError} />
     </FormModal>

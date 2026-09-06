@@ -10,6 +10,10 @@ export type ListAction =
       type: 'list_created';
       list: ListType;
     }
+  | {
+      type: 'list_removed';
+      listIndex: number;
+    }
   | { type: 'item_created'; listIndex: number; item: ListItemType }
   | { type: 'item_removed'; listIndex: number; itemIndex: number }
   | {
@@ -38,6 +42,11 @@ export function listsReducer(
   switch (action.type) {
     case 'list_created': {
       draft.push(action.list);
+      return;
+    }
+
+    case 'list_removed': {
+      draft.splice(action.listIndex, 1);
       return;
     }
 

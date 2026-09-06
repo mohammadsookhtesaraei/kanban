@@ -6,9 +6,10 @@ import IconButton from '@/components/IconButton/IconButton';
 
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteDotsLine from '@/icons/MingcuteDotsLine';
-import MingcuteMore1Line from '@/icons/MingcuteMore1Line';
+import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 
 import ListItemModal from '@/modals/ListItemModal/ListItemModal';
+import ListModal from '@/modals/ListModal/ListModal';
 
 import styles from './ListHeader.module.css';
 
@@ -19,10 +20,15 @@ type Props = {
 };
 
 const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
-  const modalRef = useRef<HTMLDialogElement | null>(null);
+  const listmodalRef = useRef<HTMLDialogElement | null>(null);
+  const listItemmodalRef = useRef<HTMLDialogElement | null>(null);
 
-  const handleCreateButtonClick = (): void => {
-    modalRef.current?.showModal();
+  const handleEditListButtonClick = (): void => {
+    listmodalRef.current?.showModal();
+  };
+
+  const handleCreateListItemButtonClick = (): void => {
+    listItemmodalRef.current?.showModal();
   };
   return (
     <div className={styles.header}>
@@ -31,14 +37,15 @@ const ListHeader = ({ title, listIndex, listeners }: Props): ReactNode => {
         <div className={styles.title}>{title}</div>
       </div>
       <div className={styles.actions}>
-        <IconButton onClick={handleCreateButtonClick}>
+        <IconButton onClick={handleEditListButtonClick}>
+          <MingcuteEdit2Line />
+        </IconButton>
+        <IconButton onClick={handleCreateListItemButtonClick}>
           <MingcuteAddLine />
         </IconButton>
-        <IconButton>
-          <MingcuteMore1Line />
-        </IconButton>
       </div>
-      <ListItemModal modalRef={modalRef} listIndex={listIndex} />
+      <ListModal modalRef={listmodalRef} listIndex={listIndex} />
+      <ListItemModal modalRef={listItemmodalRef} listIndex={listIndex} />
     </div>
   );
 };
