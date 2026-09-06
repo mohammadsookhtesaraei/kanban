@@ -2,6 +2,7 @@ import { type ComponentProps, type ReactNode, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
 
 import { useBoardContext } from '@/hooks/useBoardContext';
@@ -33,6 +34,8 @@ const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
     const formData = new FormData(e.currentTarget);
     const valuse: Values = {
       title: formData.get('title') as string,
+      description: formData.get('description') as string,
+      dueDate: formData.get('dueDate') as string,
     };
 
     if (!validateTitle(valuse.title)) {
@@ -73,6 +76,8 @@ const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
       onSubmit={handleFormSubmit}
     >
       <TextInput label="Title" name="title" error={titleError} />
+      <TextArea label="Description" name="description" />
+      <TextInput label="Due Date" type="date" name="dueDate" />
     </FormModal>
   );
 };

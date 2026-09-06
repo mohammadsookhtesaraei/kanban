@@ -5,7 +5,7 @@
   display: grid;
 }
 
-.ttext-area > textarea {
+.text-area > textarea {
   min-block-size: calc(1lh + var(--pading-and-border));
   block-size: calc(3lh + var(--pading-and-border));
   max-block-size: calc(5lh + var(--pading-and-border));
