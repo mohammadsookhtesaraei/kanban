@@ -33,6 +33,7 @@ const ListItemModal = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ defaultValues, resolver: zodResolver(ListItemSchema) });
 
   const handleRemoveButtonClick = (): void => {
@@ -71,6 +72,7 @@ const ListItemModal = ({
 
   return (
     <FormModal
+      onClose={() => reset()}
       modalRef={modalRef}
       heading={
         itemIndex !== undefined ? 'Edit Exesting Item' : 'Create new Item'

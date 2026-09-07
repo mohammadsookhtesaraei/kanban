@@ -30,6 +30,7 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ defaultValues, resolver: zodResolver(BoardSchema) });
 
   const navigate = useNavigate();
@@ -69,6 +70,7 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
 
   return (
     <FormModal
+      onClose={() => reset()}
       modalRef={modalRef}
       heading={
         boardId !== undefined ? 'Edit Existing List' : 'Create a new Board'

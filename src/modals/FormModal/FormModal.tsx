@@ -1,9 +1,4 @@
-import {
-  type ComponentProps,
-  type ReactNode,
-  type RefObject,
-  useRef,
-} from 'react';
+import { type ComponentProps, type ReactNode, type RefObject } from 'react';
 
 import Button from '@/components/Button/Button';
 
@@ -14,6 +9,7 @@ import styles from './FormModal.module.css';
 type ModalProps = {
   modalRef: ComponentProps<typeof Modal>['ref'];
   heading: ComponentProps<typeof Modal>['heading'];
+  onClose: ComponentProps<typeof Modal>['onClose'];
 };
 
 type FormProps = Omit<ComponentProps<'form'>, 'ref'> & {
@@ -25,20 +21,13 @@ type Props = ModalProps & FormProps;
 
 const FormModal = ({
   modalRef,
-  formRef,
+
   heading,
   onRemove,
   children,
-
+  onClose,
   ...otherProps
 }: Props): ReactNode => {
-  const interlaFormRef = useRef<HTMLFormElement>(null);
-
-  // onClose modal pass as a props
-  const handleModalClose = (): void => {
-    formRef?.current?.reset();
-  };
-
   // cancel button
   const handleCancelButtonClick = (): void => {
     modalRef?.current?.close();
@@ -46,20 +35,12 @@ const FormModal = ({
 
   return (
     <Modal
-      onClose={handleModalClose}
+      onClose={onClose}
       ref={modalRef}
       heading={heading}
       contentClassName={styles['form-modal']}
     >
-      <form
-        {...otherProps}
-        ref={(node) => {
-          interlaFormRef.current = node;
-          if (formRef) {
-            formRef.current = node;
-          }
-        }}
-      >
+      <form {...otherProps}>
         {children}
         <div className={styles.actions}>
           {onRemove && (

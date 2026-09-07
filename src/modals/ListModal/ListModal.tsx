@@ -28,6 +28,7 @@ const ListModal = ({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({ defaultValues, resolver: zodResolver(ListSchema) });
   const { dispatchLists } = useListsContext();
 
@@ -65,6 +66,7 @@ const ListModal = ({
 
   return (
     <FormModal
+      onClose={() => reset()}
       modalRef={modalRef}
       heading={
         listIndex !== undefined ? 'Edit Existing List' : 'Create a new List'
