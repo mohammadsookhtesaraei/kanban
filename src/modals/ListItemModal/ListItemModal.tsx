@@ -2,6 +2,7 @@ import { type ComponentProps, type ReactNode, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
+import Button from '@/components/Button/Button';
 import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
 
@@ -31,6 +32,15 @@ const ListItemModal = ({
 
   const handleFormReset = (): void => {
     setTitleError('');
+  };
+
+  const handleRemoveButtonClick = (): void => {
+    if (itemIndex === undefined) {
+      return;
+    }
+    dispatchLists({ type: 'item_removed', listIndex, itemIndex });
+    toast.success('Item removed successfully');
+    modalRef.current?.close();
   };
 
   // handle submit form
@@ -91,10 +101,22 @@ const ListItemModal = ({
     <FormModal
       modalRef={modalRef}
       heading={
-        itemIndex === undefined ? 'Edit Exesting Item' : 'Create new Item'
+        itemIndex !== undefined ? 'Edit Exesting Item' : 'Create new Item'
       }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
+      extraActions={
+        itemIndex !== undefined && (
+          <Button
+            type="button"
+            variant="text"
+            color="danger"
+            onClick={handleRemoveButtonClick}
+          >
+            Remove
+          </Button>
+        )
+      }
     >
       <TextInput
         label="Title"
