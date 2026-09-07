@@ -1,4 +1,4 @@
-import { type ComponentProps, type ReactNode, type RefObject } from 'react';
+import { type ComponentProps, type ReactNode } from 'react';
 
 import Button from '@/components/Button/Button';
 
@@ -12,8 +12,7 @@ type ModalProps = {
   onClose: ComponentProps<typeof Modal>['onClose'];
 };
 
-type FormProps = Omit<ComponentProps<'form'>, 'ref'> & {
-  formRef?: RefObject<HTMLFormElement | null>;
+type FormProps = ComponentProps<'form'> & {
   onRemove?: false | (() => void);
 };
 
@@ -21,7 +20,6 @@ type Props = ModalProps & FormProps;
 
 const FormModal = ({
   modalRef,
-
   heading,
   onRemove,
   children,
@@ -35,10 +33,10 @@ const FormModal = ({
 
   return (
     <Modal
-      onClose={onClose}
       ref={modalRef}
       heading={heading}
       contentClassName={styles['form-modal']}
+      onClose={onClose}
     >
       <form {...otherProps}>
         {children}

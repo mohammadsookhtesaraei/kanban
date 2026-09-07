@@ -75,10 +75,8 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
       heading={
         boardId !== undefined ? 'Edit Existing List' : 'Create a new Board'
       }
-
-      onSubmit={(event) => {
-        void handleSubmit(handleFormSubmit)(event);
-      }}
+      // eslint-disable-next-line react-hooks/refs
+      onSubmit={handleSubmit(handleFormSubmit)}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
     >
       <TextInput

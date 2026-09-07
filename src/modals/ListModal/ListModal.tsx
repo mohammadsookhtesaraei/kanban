@@ -71,10 +71,9 @@ const ListModal = ({
       heading={
         listIndex !== undefined ? 'Edit Existing List' : 'Create a new List'
       }
+      // eslint-disable-next-line react-hooks/refs
+      onSubmit={handleSubmit(handleFormSubmit)}
 
-      onSubmit={(event) => {
-        void handleSubmit(handleFormSubmit)(event);
-      }}
       onRemove={listIndex !== undefined && handleRemoveButtonClick}
     >
       <TextInput
