@@ -11,7 +11,7 @@ import { BoardReducer } from '@/reducers/board-reducer';
 import type { BoardType } from '@/types/board';
 
 function save(boards: BoardType[]): void {
-  localStorage.setItem('lists', JSON.stringify(boards));
+  localStorage.setItem('boards', JSON.stringify(boards));
 }
 
 function load(): BoardType[] {

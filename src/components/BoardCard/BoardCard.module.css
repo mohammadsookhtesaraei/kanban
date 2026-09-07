@@ -32,6 +32,12 @@
 .board-card .content .header .title {
   font-size: var(--fz-500);
   font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.board-card .content .header .title:hover {
+  color: var(--color-primary);
 }
 
 /* content-header > description*/

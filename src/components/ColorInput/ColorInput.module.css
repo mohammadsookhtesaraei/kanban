@@ -20,18 +20,18 @@
   font-size: 2rem;
   cursor: pointer;
 
-  svg {
-    font-size: 0.5rem;
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--color-primary);
-    outline-offset: 2px;
+  &.active {
+    background-color: var(--color-main);
   }
 }
 
-.active {
-  background-color: var(--color-main);
+.colors > button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.colors > button > svg {
+  font-size: 0.5rem;
 }
 
 .error {

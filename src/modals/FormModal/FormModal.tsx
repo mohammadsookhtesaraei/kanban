@@ -41,7 +41,7 @@ const FormModal = ({
 
   // cancel button
   const handleCancelButtonClick = (): void => {
-    formRef?.current?.close();
+    modalRef?.current?.close();
   };
 
   return (

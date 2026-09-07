@@ -1,9 +1,11 @@
-import { type ReactNode, use } from 'react';
+import { type ReactNode, use, useRef } from 'react';
 
 import BoardCard from '@/components/BoardCard/BoardCard';
 import Button from '@/components/Button/Button';
 
 import { BoardsContext } from '@/context/board-context';
+
+import BoardModal from '@/modals/BoardModal/BoardModal';
 
 import BoardsProvider from '@/providers/BoardsProvider';
 
@@ -21,11 +23,21 @@ export default HomePage;
 function HomePageContent(): ReactNode {
   const { boards } = use(BoardsContext);
 
+  const refModal = useRef<HTMLDialogElement>(null);
+
+  const handleCreateBoardButtonClick = (): void => {
+    refModal.current?.showModal();
+  };
+
   return (
     <div className={styles.home}>
       <div className={styles.header}>
         <h1>Boards</h1>
-        <Button variant="solid" color="primary">
+        <Button
+          variant="solid"
+          color="primary"
+          onClick={handleCreateBoardButtonClick}
+        >
           create
         </Button>
       </div>
@@ -37,6 +49,7 @@ function HomePageContent(): ReactNode {
           </li>
         ))}
       </ul>
+      <BoardModal modalRef={refModal} />
     </div>
   );
 }

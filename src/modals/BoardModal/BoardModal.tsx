@@ -1,39 +1,42 @@
-import { type ComponentProps, type ReactNode, useState } from 'react';
+import { type ComponentProps, type ReactNode, use, useState } from 'react';
+
+import { useNavigate } from 'react-router';
 
 import { toast } from 'react-toastify';
 
 import Button from '@/components/Button/Button';
+import ColorInput from '@/components/ColorInput/ColorInput';
+import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
 
-import { useListsContext } from '@/hooks/useListsContext';
+import { BoardsContext } from '@/context/board-context';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
-import type { ListType } from '@/types/list';
+import type { BoardColor, BoardType } from '@/types/board';
 
-type Values = Omit<ListType, 'id' | 'items'>;
+type Values = Omit<BoardType, 'id' | 'lists'>;
 type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
-  listIndex?: number;
+  boardId?: string;
   defaultValues?: Partial<Values>;
 };
 
-const ListModal = ({
-  modalRef,
-  listIndex,
-  defaultValues,
-}: Props): ReactNode => {
-  const { dispatchLists } = useListsContext();
+const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
+  const { dispatchBoards } = use(BoardsContext);
 
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
 
+  const navigate = useNavigate();
+
   const handleRemoveButtonClick = (): void => {
-    if (listIndex === undefined) {
+    if (boardId === undefined) {
       return;
     }
-    dispatchLists({ type: 'list_removed', listIndex });
-    toast.success('List removed successfully');
+    dispatchBoards({ type: 'board_removed', boardId });
+    toast.success('board removed successfully');
     modalRef.current?.close();
+    navigate('/');
   };
 
   const handleFormReset = (): void => {
@@ -47,23 +50,25 @@ const ListModal = ({
     const formData = new FormData(e.currentTarget);
     const valuse: Values = {
       title: formData.get('title') as string,
+      description: formData.get('description') as string,
+      color: formData.get('color') as BoardColor,
     };
 
     if (!validateTitle(valuse.title)) {
       return;
     }
 
-    if (listIndex !== undefined) {
+    if (boardId !== undefined) {
       // create from useListsContexthook
-      dispatchLists({ type: 'list_edited', listIndex, list: valuse });
+      dispatchBoards({ type: 'board_edited', boardId, board: valuse });
 
       // toast
-      toast.success('List Edited successfully');
+      toast.success('Board Edited successfully');
     } else {
       const id = globalThis.crypto.randomUUID();
-      dispatchLists({
-        type: 'list_created',
-        list: { id, items: [], ...valuse },
+      dispatchBoards({
+        type: 'board_created',
+        board: { id, lists: [], ...valuse },
       });
 
       // toast
@@ -94,12 +99,12 @@ const ListModal = ({
     <FormModal
       modalRef={modalRef}
       heading={
-        listIndex !== undefined ? 'Edit Existing List' : 'Create a new List'
+        boardId !== undefined ? 'Edit Existing List' : 'Create a new Board'
       }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
       extraActions={
-        listIndex !== undefined && (
+        boardId !== undefined && (
           <Button
             type="button"
             variant="text"
@@ -117,8 +122,18 @@ const ListModal = ({
         error={titleError}
         defaultValue={defaultValues?.title}
       />
+      <TextArea
+        label="Description"
+        name="description"
+        defaultValue={defaultValues?.description}
+      />
+      <ColorInput
+        label="Color"
+        name="color"
+        defaultValue={defaultValues?.color}
+      />
     </FormModal>
   );
 };
 
-export default ListModal;
+export default BoardModal;

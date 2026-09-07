@@ -1,26 +1,35 @@
-import { type ReactNode, useRef } from 'react';
+import { type ReactNode, use, useRef } from 'react';
 
 import IconButton from '@/components/IconButton/IconButton';
+
+import { BoardPageContext } from '@/context/board-page-context';
 
 import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteEdit2Line from '@/icons/MingcuteEdit2Line';
 
+import BoardModal from '@/modals/BoardModal/BoardModal';
 import ListModal from '@/modals/ListModal/ListModal';
 
 import styles from './BoardTolbar.module.css';
 
 const BoardTolbar = (): ReactNode => {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const { board } = use(BoardPageContext);
 
+  const ListmodalRef = useRef<HTMLDialogElement>(null);
+  const boardmodalRef = useRef<HTMLDialogElement>(null);
+
+  const handleEditBoardButtonClick = (): void => {
+    boardmodalRef.current?.showModal();
+  };
   const handleCreateListButtonClick = (): void => {
-    modalRef.current?.showModal();
+    ListmodalRef.current?.showModal();
   };
 
   return (
     <div className={styles.toolbar}>
       <div className={styles.title}>Board title</div>
       <div className={styles.actions}>
-        <IconButton>
+        <IconButton onClick={handleEditBoardButtonClick}>
           <MingcuteEdit2Line />
         </IconButton>
         <IconButton onClick={handleCreateListButtonClick}>
@@ -28,7 +37,12 @@ const BoardTolbar = (): ReactNode => {
           <MingcuteAddLine />
         </IconButton>
       </div>
-      <ListModal modalRef={modalRef} />
+      <ListModal modalRef={ListmodalRef} />
+      <BoardModal
+        modalRef={boardmodalRef}
+        boardId={board.id}
+        defaultValues={board}
+      />
     </div>
   );
 };

@@ -10,7 +10,7 @@ import styles from './BoardLists.module.css';
 
 const BoardLists = (): ReactNode => {
   const { lists } = useListsContext();
-  console.log(lists);
+
   return (
     <SortableContext id="board" items={lists.map((item) => item.id)}>
       <ul className={styles.lists}>

@@ -6,7 +6,7 @@ import MingcuteCheckFill from '@/icons/MingcuteCheckFill';
 
 import { BOARD_COLORS, type BoardColor } from '@/types/board';
 
-import styles from './TextInput.module.css';
+import styles from './ColorInput.module.css';
 
 type Props = Omit<
   ComponentProps<'input'>,
@@ -16,7 +16,7 @@ type Props = Omit<
   error?: string | null;
   value?: BoardColor;
   defaultValue?: BoardColor;
-  onChange: (value: BoardColor) => void;
+  onChange?: (value: BoardColor) => void;
 };
 
 const ColorInput = ({
@@ -49,14 +49,14 @@ const ColorInput = ({
       )}
     >
       <div className={styles.colors}>
-        {BOARD_COLORS.map((item) => (
+        {BOARD_COLORS.map((color) => (
           <button
-            key={item}
-            className={clsx(item, item === value && styles.active)}
+            key={color}
+            className={clsx(color, color === value && styles.active)}
             type="button"
-            onClick={() => handleButtonClick(item)}
+            onClick={() => handleButtonClick(color)}
           >
-            {item === value && <MingcuteCheckFill />}
+            {color === value && <MingcuteCheckFill />}
           </button>
         ))}
       </div>
