@@ -9,6 +9,8 @@ import { useListsContext } from '@/hooks/useListsContext';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
+import { listSchema } from '@/schemas/list-schema';
+
 import type { ListType } from '@/types/list';
 
 type Values = Omit<ListType, 'id' | 'items'>;
@@ -49,7 +51,8 @@ const ListModal = ({
       title: formData.get('title') as string,
     };
 
-    if (!validateTitle(valuse.title)) {
+    const { error } = listSchema.safeParse(valuse);
+    if (error) {
       return;
     }
 
@@ -74,21 +77,21 @@ const ListModal = ({
     modalRef.current?.close();
   };
 
-  // validate form fn
-  const validateTitle = (title: string): boolean => {
-    if (title.length === 0) {
-      setTitleError('Title cannot be empty.');
-      return false;
-    }
+  // // validate form fn
+  // const validateTitle = (title: string): boolean => {
+  //   if (title.length === 0) {
+  //     setTitleError('Title cannot be empty.');
+  //     return false;
+  //   }
 
-    if (title.length < 5) {
-      setTitleError('Title must be at least 5 characters.');
-      return false;
-    }
+  //   if (title.length < 5) {
+  //     setTitleError('Title must be at least 5 characters.');
+  //     return false;
+  //   }
 
-    setTitleError(null);
-    return true;
-  };
+  //   setTitleError(null);
+  //   return true;
+  // };
 
   return (
     <FormModal
