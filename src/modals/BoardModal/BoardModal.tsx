@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router';
 
 import { toast } from 'react-toastify';
 
-import Button from '@/components/Button/Button';
 import ColorInput from '@/components/ColorInput/ColorInput';
 import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
@@ -103,18 +102,7 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
       }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
-      extraActions={
-        boardId !== undefined && (
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={handleRemoveButtonClick}
-          >
-            Remove
-          </Button>
-        )
-      }
+      onRemove={boardId !== undefined && handleRemoveButtonClick}
     >
       <TextInput
         label="Title"

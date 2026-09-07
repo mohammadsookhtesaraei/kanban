@@ -2,7 +2,6 @@ import { type ComponentProps, type ReactNode, useState } from 'react';
 
 import { toast } from 'react-toastify';
 
-import Button from '@/components/Button/Button';
 import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
 
@@ -105,18 +104,7 @@ const ListItemModal = ({
       }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
-      extraActions={
-        itemIndex !== undefined && (
-          <Button
-            type="button"
-            variant="text"
-            color="danger"
-            onClick={handleRemoveButtonClick}
-          >
-            Remove
-          </Button>
-        )
-      }
+      onRemove={itemIndex !== undefined && handleRemoveButtonClick}
     >
       <TextInput
         label="Title"
