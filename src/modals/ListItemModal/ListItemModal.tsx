@@ -14,9 +14,16 @@ import type { ListItemType } from '@/types/list-item';
 type Values = Omit<ListItemType, 'id'>;
 type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
   listIndex: number;
+  itemIndex?: number;
+  defaultValues?: Partial<Values>;
 };
 
-const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
+const ListItemModal = ({
+  modalRef,
+  listIndex,
+  itemIndex,
+  defaultValues,
+}: Props): ReactNode => {
   const { dispatchLists } = useBoardContext();
 
   // input validation pass as a props to textInput
@@ -29,7 +36,6 @@ const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
   // handle submit form
   const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const id = globalThis.crypto.randomUUID();
 
     const formData = new FormData(e.currentTarget);
     const valuse: Values = {
@@ -42,11 +48,24 @@ const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
       return;
     }
 
-    // create from useBoardContexthook
-    dispatchLists({ type: 'item_created', listIndex, item: { id, ...valuse } });
-
-    // toast
-    toast.success('Item created successfully');
+    if (itemIndex !== undefined) {
+      dispatchLists({
+        type: 'item_edited',
+        listIndex,
+        itemIndex,
+        item: valuse,
+      });
+    } else {
+      const id = globalThis.crypto.randomUUID();
+      // create from useBoardContexthook
+      dispatchLists({
+        type: 'item_created',
+        listIndex,
+        item: { id, ...valuse },
+      });
+      // toast
+      toast.success('Item created successfully');
+    }
 
     // and close modal after form submit
     modalRef.current?.close();
@@ -71,13 +90,29 @@ const ListItemModal = ({ modalRef, listIndex }: Props): ReactNode => {
   return (
     <FormModal
       modalRef={modalRef}
-      heading="Create new Item"
+      heading={
+        itemIndex === undefined ? 'Edit Exesting Item' : 'Create new Item'
+      }
       onReset={handleFormReset}
       onSubmit={handleFormSubmit}
     >
-      <TextInput label="Title" name="title" error={titleError} />
-      <TextArea label="Description" name="description" />
-      <TextInput label="Due Date" type="date" name="dueDate" />
+      <TextInput
+        label="Title"
+        name="title"
+        error={titleError}
+        defaultValue={defaultValues?.title}
+      />
+      <TextArea
+        label="Description"
+        name="description"
+        defaultValue={defaultValues?.description}
+      />
+      <TextInput
+        label="Due Date"
+        type="date"
+        name="dueDate"
+        defaultValue={defaultValues?.dueDate}
+      />
     </FormModal>
   );
 };

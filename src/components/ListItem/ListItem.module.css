@@ -11,12 +11,12 @@
   user-select: none;
 }
 
-.item button {
+.item > button {
   opacity: 0;
 }
 
 .item:not(.presentational) {
-  button:hover {
+  > button:hover {
     opacity: 1;
   }
 }
