@@ -1,8 +1,11 @@
-import { type ComponentProps, type ReactNode, use, useState } from 'react';
+import { type ComponentProps, type ReactNode, use } from 'react';
 
 import { useNavigate } from 'react-router';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import type z from 'zod';
 
 import ColorInput from '@/components/ColorInput/ColorInput';
 import TextArea from '@/components/TextArea/TextArea';
@@ -12,19 +15,22 @@ import { BoardsContext } from '@/context/board-context';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
-import type { BoardColor, BoardType } from '@/types/board';
+import { BoardSchema } from '@/schemas/board-schema';
 
-type Values = Omit<BoardType, 'id' | 'lists'>;
+type Values = z.infer<typeof BoardSchema>;
 type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
   boardId?: string;
-  defaultValues?: Partial<Values>;
+  defaultValues?: Values;
 };
 
 const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
   const { dispatchBoards } = use(BoardsContext);
-
-  // input validation pass as a props to textInput
-  const [titleError, setTitleError] = useState<string | null>(null);
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues, resolver: zodResolver(BoardSchema) });
 
   const navigate = useNavigate();
 
@@ -38,28 +44,11 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
     navigate('/');
   };
 
-  const handleFormReset = (): void => {
-    setTitleError('');
-  };
-
   // handle submit form
-  const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const valuse: Values = {
-      title: formData.get('title') as string,
-      description: formData.get('description') as string,
-      color: formData.get('color') as BoardColor,
-    };
-
-    if (!validateTitle(valuse.title)) {
-      return;
-    }
-
+  const handleFormSubmit = (values: Values): void => {
     if (boardId !== undefined) {
       // create from useListsContexthook
-      dispatchBoards({ type: 'board_edited', boardId, board: valuse });
+      dispatchBoards({ type: 'board_edited', boardId, board: values });
 
       // toast
       toast.success('Board Edited successfully');
@@ -67,7 +56,7 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
       const id = globalThis.crypto.randomUUID();
       dispatchBoards({
         type: 'board_created',
-        board: { id, lists: [], ...valuse },
+        board: { id, lists: [], ...values },
       });
 
       // toast
@@ -78,47 +67,36 @@ const BoardModal = ({ modalRef, boardId, defaultValues }: Props): ReactNode => {
     modalRef.current?.close();
   };
 
-  // validate form fn
-  const validateTitle = (title: string): boolean => {
-    if (title.length === 0) {
-      setTitleError('Title cannot be empty.');
-      return false;
-    }
-
-    if (title.length < 5) {
-      setTitleError('Title must be at least 5 characters.');
-      return false;
-    }
-
-    setTitleError(null);
-    return true;
-  };
-
   return (
     <FormModal
       modalRef={modalRef}
       heading={
         boardId !== undefined ? 'Edit Existing List' : 'Create a new Board'
       }
-      onReset={handleFormReset}
-      onSubmit={handleFormSubmit}
+
+      onSubmit={(event) => {
+        void handleSubmit(handleFormSubmit)(event);
+      }}
       onRemove={boardId !== undefined && handleRemoveButtonClick}
     >
       <TextInput
+        {...register('title')}
         label="Title"
-        name="title"
-        error={titleError}
-        defaultValue={defaultValues?.title}
+
+        error={errors.title?.message}
       />
       <TextArea
+        {...register('description')}
         label="Description"
-        name="description"
-        defaultValue={defaultValues?.description}
+        error={errors.description?.message}
       />
-      <ColorInput
-        label="Color"
+
+      <Controller
         name="color"
-        defaultValue={defaultValues?.color}
+        control={control}
+        render={({ field }) => (
+          <ColorInput {...field} label="Color" error={errors.color?.message} />
+        )}
       />
     </FormModal>
   );

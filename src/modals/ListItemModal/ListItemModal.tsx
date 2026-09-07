@@ -1,6 +1,9 @@
-import { type ComponentProps, type ReactNode, useState } from 'react';
+import { type ComponentProps, type ReactNode } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
+import type z from 'zod';
 
 import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
@@ -9,13 +12,13 @@ import { useListsContext } from '@/hooks/useListsContext';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
-import type { ListItemType } from '@/types/list-item';
+import { ListItemSchema } from '@/schemas/list-item-schema';
 
-type Values = Omit<ListItemType, 'id'>;
+type Values = z.infer<typeof ListItemSchema>;
 type Props = Pick<ComponentProps<typeof FormModal>, 'modalRef'> & {
   listIndex: number;
   itemIndex?: number;
-  defaultValues?: Partial<Values>;
+  defaultValues?: Values;
 };
 
 const ListItemModal = ({
@@ -26,12 +29,11 @@ const ListItemModal = ({
 }: Props): ReactNode => {
   const { dispatchLists } = useListsContext();
 
-  // input validation pass as a props to textInput
-  const [titleError, setTitleError] = useState<string | null>(null);
-
-  const handleFormReset = (): void => {
-    setTitleError('');
-  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ defaultValues, resolver: zodResolver(ListItemSchema) });
 
   const handleRemoveButtonClick = (): void => {
     if (itemIndex === undefined) {
@@ -43,26 +45,13 @@ const ListItemModal = ({
   };
 
   // handle submit form
-  const handleFormSubmit = (e: React.SubmitEvent<HTMLFormElement>): void => {
-    e.preventDefault();
-
-    const formData = new FormData(e.currentTarget);
-    const valuse: Values = {
-      title: formData.get('title') as string,
-      description: formData.get('description') as string,
-      dueDate: formData.get('dueDate') as string,
-    };
-
-    if (!validateTitle(valuse.title)) {
-      return;
-    }
-
+  const handleFormSubmit = (values: Values): void => {
     if (itemIndex !== undefined) {
       dispatchLists({
         type: 'item_edited',
         listIndex,
         itemIndex,
-        item: valuse,
+        item: values,
       });
     } else {
       const id = globalThis.crypto.randomUUID();
@@ -70,7 +59,7 @@ const ListItemModal = ({
       dispatchLists({
         type: 'item_created',
         listIndex,
-        item: { id, ...valuse },
+        item: { id, ...values },
       });
       // toast
       toast.success('Item created successfully');
@@ -80,48 +69,34 @@ const ListItemModal = ({
     modalRef.current?.close();
   };
 
-  // validate form fn
-  const validateTitle = (title: string): boolean => {
-    if (title.length === 0) {
-      setTitleError('Title cannot be empty.');
-      return false;
-    }
-
-    if (title.length < 5) {
-      setTitleError('Title must be at least 5 characters.');
-      return false;
-    }
-
-    setTitleError(null);
-    return true;
-  };
-
   return (
     <FormModal
       modalRef={modalRef}
       heading={
         itemIndex !== undefined ? 'Edit Exesting Item' : 'Create new Item'
       }
-      onReset={handleFormReset}
-      onSubmit={handleFormSubmit}
+
+      onSubmit={(event) => {
+        void handleSubmit(handleFormSubmit)(event);
+      }}
       onRemove={itemIndex !== undefined && handleRemoveButtonClick}
     >
       <TextInput
+        {...register('title')}
         label="Title"
-        name="title"
-        error={titleError}
-        defaultValue={defaultValues?.title}
+
+        error={errors.title?.message}
       />
       <TextArea
+        {...register('description')}
         label="Description"
-        name="description"
-        defaultValue={defaultValues?.description}
+        error={errors.description?.message}
       />
       <TextInput
+        {...register('dueDate')}
         label="Due Date"
+        error={errors.dueDate?.message}
         type="date"
-        name="dueDate"
-        defaultValue={defaultValues?.dueDate}
       />
     </FormModal>
   );
