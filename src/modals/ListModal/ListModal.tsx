@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Button from '@/components/Button/Button';
 import TextInput from '@/components/TextInput/TextInput';
 
-import { useBoardContext } from '@/hooks/useBoardContext';
+import { useListsContext } from '@/hooks/useListsContext';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
@@ -22,7 +22,7 @@ const ListModal = ({
   listIndex,
   defaultValues,
 }: Props): ReactNode => {
-  const { dispatchLists } = useBoardContext();
+  const { dispatchLists } = useListsContext();
 
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -54,7 +54,7 @@ const ListModal = ({
     }
 
     if (listIndex !== undefined) {
-      // create from useBoardContexthook
+      // create from useListsContexthook
       dispatchLists({ type: 'list_edited', listIndex, list: valuse });
 
       // toast

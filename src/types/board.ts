@@ -1,0 +1,20 @@
+import type { ListType } from '@/types/list';
+
+export type BoardType = {
+  id: string;
+  title: string;
+  description: string;
+  color: BoardColor;
+  lists: ListType[];
+};
+
+export const BOARD_COLORS = Object.freeze([
+  'blue',
+  'green',
+  'red',
+  'orange',
+  'yellow',
+  'gray',
+] as const);
+
+export type BoardColor = (typeof BOARD_COLORS)[number];

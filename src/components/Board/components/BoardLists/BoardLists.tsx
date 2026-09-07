@@ -4,12 +4,13 @@ import { SortableContext } from '@dnd-kit/sortable';
 
 import List from '@/components/List/List';
 
-import { useBoardContext } from '@/hooks/useBoardContext';
+import { useListsContext } from '@/hooks/useListsContext';
 
 import styles from './BoardLists.module.css';
 
 const BoardLists = (): ReactNode => {
-  const { lists } = useBoardContext();
+  const { lists } = useListsContext();
+  console.log(lists);
   return (
     <SortableContext id="board" items={lists.map((item) => item.id)}>
       <ul className={styles.lists}>

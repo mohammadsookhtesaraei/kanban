@@ -6,7 +6,7 @@ import Button from '@/components/Button/Button';
 import TextArea from '@/components/TextArea/TextArea';
 import TextInput from '@/components/TextInput/TextInput';
 
-import { useBoardContext } from '@/hooks/useBoardContext';
+import { useListsContext } from '@/hooks/useListsContext';
 
 import FormModal from '@/modals/FormModal/FormModal';
 
@@ -25,7 +25,7 @@ const ListItemModal = ({
   itemIndex,
   defaultValues,
 }: Props): ReactNode => {
-  const { dispatchLists } = useBoardContext();
+  const { dispatchLists } = useListsContext();
 
   // input validation pass as a props to textInput
   const [titleError, setTitleError] = useState<string | null>(null);
@@ -67,7 +67,7 @@ const ListItemModal = ({
       });
     } else {
       const id = globalThis.crypto.randomUUID();
-      // create from useBoardContexthook
+      // create from useListsContexthook
       dispatchLists({
         type: 'item_created',
         listIndex,

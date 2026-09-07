@@ -14,7 +14,7 @@ import {
 import List from '@/components/List/List';
 import ListItem from '@/components/ListItem/ListItem';
 
-import { useBoardContext } from '@/hooks/useBoardContext';
+import { useListsContext } from '@/hooks/useListsContext';
 
 import { detectCollision } from '@/providers/DndProvider/utils/collision-detection';
 
@@ -26,7 +26,7 @@ import type { DraggableData } from '@/types/draggable-data';
 type Props = PropsWithChildren;
 
 const DndProvider = ({ children }: Props): ReactNode => {
-  const { dispatchLists } = useBoardContext();
+  const { dispatchLists } = useListsContext();
   const [activeData, setActiveData] = useState<DraggableData | null>(null);
   //useSensors: در
   // dnd-kit
