@@ -1,4 +1,4 @@
-import type { MouseEvent, ReactNode, RefObject } from 'react';
+import type { PointerEvent, ReactNode, RefObject } from 'react';
 import { type ComponentProps } from 'react';
 
 import clsx from 'clsx';
@@ -19,15 +19,15 @@ const Modal = ({
   className,
   children,
   heading,
-  onClick,
+  onPointerDown,
   contentClassName,
   ...otherProps
 }: Props): ReactNode => {
-  const handleDialogClick = (e: MouseEvent<HTMLDialogElement>): void => {
+  const handleDialogClick = (e: PointerEvent<HTMLDialogElement>): void => {
     if (e.currentTarget === e.target) {
       ref.current?.close();
     } else {
-      onClick?.(e);
+      onPointerDown?.(e);
     }
   };
   const handleCloseButtonClick = (): void => {
@@ -37,7 +37,7 @@ const Modal = ({
   return (
     <dialog
       ref={ref}
-      onClick={handleDialogClick}
+      onPointerDown={handleDialogClick}
       className={clsx(styles.modal, className)}
       {...otherProps}
     >
