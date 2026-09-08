@@ -1,10 +1,10 @@
 import { type ComponentProps, type ReactNode, use } from 'react';
 
+import Initials from '@/components/Initials/Initials';
 import SidebartItem from '@/components/Sidebar/components/SidebartItem/SidebartItem';
 
 import { BoardsContext } from '@/context/board-context';
 
-import MingcuteAddLine from '@/icons/MingcuteAddLine';
 import MingcuteHome7Line from '@/icons/MingcuteHome7Line';
 import MingcuteSettings5Line from '@/icons/MingcuteSettings5Line';
 
@@ -46,7 +46,7 @@ const SidebarGroups = (): ReactNode => {
         title: board.title,
         href: `/board/${board.id}`,
         color: board.color,
-        icon: <MingcuteAddLine />,
+        icon: <Initials title={board.title} color={board.color} />,
       })),
     },
   ];
