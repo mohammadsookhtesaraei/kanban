@@ -7,20 +7,9 @@ import { BoardsContext } from '@/context/board-context';
 
 import BoardModal from '@/modals/BoardModal/BoardModal';
 
-import BoardsProvider from '@/providers/BoardsProvider';
-
 import styles from './HomePage.module.css';
 
 const HomePage = (): ReactNode => {
-  return (
-    <BoardsProvider>
-      <HomePageContent />
-    </BoardsProvider>
-  );
-};
-export default HomePage;
-
-function HomePageContent(): ReactNode {
   const { boards } = use(BoardsContext);
 
   const refModal = useRef<HTMLDialogElement>(null);
@@ -52,4 +41,5 @@ function HomePageContent(): ReactNode {
       <BoardModal modalRef={refModal} />
     </div>
   );
-}
+};
+export default HomePage;

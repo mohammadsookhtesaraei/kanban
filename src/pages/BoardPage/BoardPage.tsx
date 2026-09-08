@@ -9,22 +9,12 @@ import { BoardsContext } from '@/context/board-context';
 import NotFoundPage from '@/pages/NotFound/NotFoundPage';
 
 import BoardPageProvider from '@/providers/BoardPageProvider';
-import BoardsProvider from '@/providers/BoardsProvider';
 import DndProvider from '@/providers/DndProvider/DndProvider';
 import ListsProvider from '@/providers/ListsProvider';
 
 import styles from './BoardPage.module.css';
 
 const BoardPage = (): ReactNode => {
-  return (
-    <BoardsProvider>
-      <BoardPageContent />
-    </BoardsProvider>
-  );
-};
-export default BoardPage;
-
-function BoardPageContent(): ReactNode {
   const { id } = useParams();
   const { boards } = use(BoardsContext);
 
@@ -36,7 +26,7 @@ function BoardPageContent(): ReactNode {
 
   return (
     <BoardPageProvider board={board}>
-      <ListsProvider>
+      <ListsProvider key={id}>
         <DndProvider>
           <div className={styles.container}>
             <Board />
@@ -45,4 +35,5 @@ function BoardPageContent(): ReactNode {
       </ListsProvider>
     </BoardPageProvider>
   );
-}
+};
+export default BoardPage;
