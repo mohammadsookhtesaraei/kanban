@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 
 import { Route, Routes } from 'react-router';
 
-import RootLayout from '@/components/layout/RootLayout';
+import RootLayout from '@/layouts/RootLayout/RootLayout';
 
 import BoardPage from '@/pages/BoardPage/BoardPage';
 import HomePage from '@/pages/HomePage/HomePage';

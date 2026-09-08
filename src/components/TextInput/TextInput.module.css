@@ -5,7 +5,7 @@
 .text-input > input {
   border: 1px solid var(--color-border);
   padding: 0.5rem;
-  border-radius: var(--border-radius-1);
+  border-radius: var(----border-radius-2);
 }
 
 .text-input > input:focus {

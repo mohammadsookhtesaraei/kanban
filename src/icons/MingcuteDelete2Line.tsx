@@ -1,8 +1,8 @@
-import React, { type SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
-export function MingcuteDelete2Line(
+export default function MingcuteDelete2Line(
   props: SVGProps<SVGSVGElement>
-): React.JSX.Element {
+): ReactNode {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +22,3 @@ export function MingcuteDelete2Line(
     </svg>
   );
 }
-export default MingcuteDelete2Line;

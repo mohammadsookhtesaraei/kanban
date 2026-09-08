@@ -1,8 +1,8 @@
-import { type SVGProps } from 'react';
+import type { ReactNode, SVGProps } from 'react';
 
-export function MingcuteDotsLine(
+export default function MingcuteDotsLine(
   props: SVGProps<SVGSVGElement>
-): React.JSX.Element {
+): ReactNode {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,4 +22,3 @@ export function MingcuteDotsLine(
     </svg>
   );
 }
-export default MingcuteDotsLine;
