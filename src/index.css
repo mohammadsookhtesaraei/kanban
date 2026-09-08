@@ -28,7 +28,6 @@ html {
 
 body {
   background-color: var(--color-surface-1);
-  inline-size: min(75rem, 100% - 2rem);
   margin-inline: auto;
   font-size: var(--fz-400);
 }
