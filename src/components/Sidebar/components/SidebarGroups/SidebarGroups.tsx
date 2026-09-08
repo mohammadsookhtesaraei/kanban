@@ -1,12 +1,17 @@
 import { type ComponentProps, type ReactNode, use } from 'react';
 
+import clsx from 'clsx';
+
 import Initials from '@/components/Initials/Initials';
 import SidebartItem from '@/components/Sidebar/components/SidebartItem/SidebartItem';
+import { SideBarContext } from '@/components/Sidebar/context/sidebar-context';
 
 import { BoardsContext } from '@/context/board-context';
 
 import MingcuteHome7Line from '@/icons/MingcuteHome7Line';
 import MingcuteSettings5Line from '@/icons/MingcuteSettings5Line';
+
+import styles from './SidebarGroups.module.css';
 
 type SideBarGroups = {
   title?: string;
@@ -15,6 +20,8 @@ type SideBarGroups = {
 
 const SidebarGroups = (): ReactNode => {
   const { boards } = use(BoardsContext);
+
+  const { isCollapsed } = use(SideBarContext);
 
   const gruops: SideBarGroups[] = [
     {
@@ -51,8 +58,11 @@ const SidebarGroups = (): ReactNode => {
     },
   ];
   return gruops.map((group, index) => (
-    <div key={index}>
-      {group.title && <div>{group.title}</div>}
+    <div
+      key={index}
+      className={clsx(styles.group, isCollapsed && styles.collapsed)}
+    >
+      {group.title && <div>{isCollapsed ? group.title[0] : group.title}</div>}
       <ul>
         {group.item.map((item) => (
           <li key={item.href}>

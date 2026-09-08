@@ -1,8 +1,10 @@
-import type { ReactNode } from 'react';
+import { type ReactNode, use } from 'react';
 
 import { NavLink } from 'react-router';
 
 import clsx from 'clsx';
+
+import { SideBarContext } from '@/components/Sidebar/context/sidebar-context';
 
 import type { BoardColor } from '@/types/board';
 
@@ -23,7 +25,12 @@ const SidebartItem = ({
   icon,
   onClick,
 }: Props): ReactNode => {
-  const className = clsx(stylse['sidebar-item'], color);
+  const { isCollapsed } = use(SideBarContext);
+  const className = clsx(
+    stylse['sidebar-item'],
+    color,
+    isCollapsed && stylse.collapsed
+  );
   const children = (
     <>
       <span className={stylse.icon}>{icon}</span>
